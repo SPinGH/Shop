@@ -8,7 +8,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/auth/roles-auth.decorator';
 import { ChangeUserDto } from './dto/change-user.dto';
 import { UsersService } from './users.service';
-import { IdParam } from './dto/id-query.dto';
+import { IdParam } from '../dto/id-query.dto';
 import { UserDto } from './dto/user.dto';
 
 @ApiTags('Пользователи')
