@@ -15,6 +15,11 @@ export class CategoriesService {
         private filesService: FilesService
     ) {}
 
+    async getOne(id: number) {
+        const category = await this.categoryRepository.findOne({ where: { id } });
+        return category;
+    }
+
     async getAll() {
         const categories = await this.categoryRepository.findAll();
         return categories.map((category) => new CategoryDto(category));

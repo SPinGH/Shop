@@ -5,7 +5,9 @@ import { Module } from '@nestjs/common';
 import * as path from 'path';
 
 import { CategoriesModule } from './categories/categories.module';
+import { ProductsModule } from './products/products.module';
 import { Category } from './categories/categories.model';
+import { Product } from './products/products.model';
 import { FilesModule } from './files/files.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
@@ -26,13 +28,14 @@ import { User } from './users/users.model';
             username: process.env.POSTGRES_USER,
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
-            models: [User, Category],
+            models: [User, Category, Product],
             autoLoadModels: true,
         }),
         UsersModule,
         AuthModule,
         CategoriesModule,
         FilesModule,
+        ProductsModule,
     ],
 })
 export class AppModule {}
