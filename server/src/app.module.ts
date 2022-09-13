@@ -10,10 +10,12 @@ import { Category } from './categories/categories.model';
 import { Product } from './products/products.model';
 import { FilesModule } from './files/files.module';
 import { LikesModule } from './likes/likes.module';
+import { CartsModule } from './carts/carts.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './users/users.model';
 import { Like } from './likes/likes.model';
+import { Cart } from './carts/carts.model';
 
 @Module({
     imports: [
@@ -30,7 +32,7 @@ import { Like } from './likes/likes.model';
             username: process.env.POSTGRES_USER,
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
-            models: [User, Category, Product, Like],
+            models: [User, Category, Product, Like, Cart],
             autoLoadModels: true,
         }),
         UsersModule,
@@ -39,6 +41,7 @@ import { Like } from './likes/likes.model';
         FilesModule,
         ProductsModule,
         LikesModule,
+        CartsModule,
     ],
 })
 export class AppModule {}

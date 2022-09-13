@@ -3,6 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { Category } from 'src/categories/categories.model';
 import { Like } from 'src/likes/likes.model';
+import { Cart } from 'src/carts/carts.model';
 
 interface ProductCreationAttrs {
     name: string;
@@ -49,4 +50,7 @@ export class Product extends Model<Product, ProductCreationAttrs> {
 
     @HasMany(() => Like)
     likes: Like[];
+
+    @HasMany(() => Cart)
+    carts: Cart[];
 }

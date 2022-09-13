@@ -24,8 +24,6 @@ export class LikesController {
     @UseGuards(JwtAuthGuard)
     @Get()
     getAll(@Req() request: Request & { user: UserDto }, @Query() param: CreateLikeDto) {
-        console.log(param);
-
         return this.likesService.getStatus(request.user.id, param.productId);
     }
 
