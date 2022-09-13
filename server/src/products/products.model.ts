@@ -1,7 +1,8 @@
-import { Model, Table, Column, DataType, BelongsTo, ForeignKey } from 'sequelize-typescript';
+import { Model, Table, Column, DataType, BelongsTo, ForeignKey, HasMany } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { Category } from 'src/categories/categories.model';
+import { Like } from 'src/likes/likes.model';
 
 interface ProductCreationAttrs {
     name: string;
@@ -45,4 +46,7 @@ export class Product extends Model<Product, ProductCreationAttrs> {
 
     @BelongsTo(() => Category)
     category: Category;
+
+    @HasMany(() => Like)
+    likes: Like[];
 }

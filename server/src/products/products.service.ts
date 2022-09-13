@@ -2,15 +2,15 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
 
+import { ValidationException } from 'src/exceptions/validation.exception';
+import { CategoriesService } from 'src/categories/categories.service';
 import { CreateProductDto } from './dto/create-product.dto';
+import { ChangeProductDto } from './dto/change-product.dto';
 import { SearchResponse } from './dto/search-response.dto';
 import { SearchRequest } from './dto/search-request.dto';
 import { FilesService } from 'src/files/files.service';
 import { ProductDto } from './dto/product.dto';
 import { Product } from './products.model';
-import { CategoriesService } from 'src/categories/categories.service';
-import { ValidationException } from 'src/exceptions/validation.exception';
-import { ChangeProductDto } from './dto/change-product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -19,6 +19,10 @@ export class ProductsService {
         private categoriesService: CategoriesService,
         private filesService: FilesService
     ) {}
+
+    async getById(id: number) {
+        return await this.productRepository.findOne({ where: { id } });
+    }
 
     async getOne(id: number) {
         const product = await this.productRepository.findOne({ where: { id }, include: { all: true } });

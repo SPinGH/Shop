@@ -1,4 +1,4 @@
-import { ApiConsumes, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FormDataRequest } from 'nestjs-form-data';
 import {
     Body,
@@ -27,6 +27,7 @@ import { ProductsService } from './products.service';
 import { ProductDto } from './dto/product.dto';
 import { IdParam } from 'src/dto/id-query.dto';
 
+@ApiTags('Товары')
 @Controller('products')
 export class ProductsController {
     constructor(private productsService: ProductsService) {}

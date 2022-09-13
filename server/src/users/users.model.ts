@@ -1,5 +1,6 @@
-import { Model, Table, Column, DataType } from 'sequelize-typescript';
+import { Model, Table, Column, DataType, HasMany } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
+import { Like } from 'src/likes/likes.model';
 
 interface UserCreationAttrs {
     email: string;
@@ -23,4 +24,7 @@ export class User extends Model<User, UserCreationAttrs> {
     @ApiProperty({ example: 'User', description: 'Роль' })
     @Column({ type: DataType.STRING, allowNull: false, defaultValue: 'USER' })
     role: 'ADMIN' | 'USER';
+
+    @HasMany(() => Like)
+    likes: Like[];
 }
