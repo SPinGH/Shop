@@ -1,6 +1,7 @@
 import { Model, Table, Column, DataType, HasMany } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 
+import { Order } from 'src/orders/order.model';
 import { Like } from 'src/likes/likes.model';
 import { Cart } from 'src/carts/carts.model';
 
@@ -32,4 +33,7 @@ export class User extends Model<User, UserCreationAttrs> {
 
     @HasMany(() => Cart)
     carts: Cart[];
+
+    @HasMany(() => Order)
+    orders: Cart[];
 }

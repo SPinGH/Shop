@@ -4,6 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Category } from 'src/categories/categories.model';
 import { Like } from 'src/likes/likes.model';
 import { Cart } from 'src/carts/carts.model';
+import { OrderItem } from 'src/orders/orderItem.model';
 
 interface ProductCreationAttrs {
     name: string;
@@ -53,4 +54,7 @@ export class Product extends Model<Product, ProductCreationAttrs> {
 
     @HasMany(() => Cart)
     carts: Cart[];
+
+    @HasMany(() => OrderItem)
+    orderItems: OrderItem[];
 }

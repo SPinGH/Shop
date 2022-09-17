@@ -12,5 +12,6 @@ import { Cart } from './carts.model';
     controllers: [CartsController],
     providers: [CartsService],
     imports: [SequelizeModule.forFeature([Cart, Product]), AuthModule, UsersModule],
+    exports: [CartsService],
 })
 export class CartsModule {}

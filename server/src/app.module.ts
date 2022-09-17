@@ -7,12 +7,15 @@ import * as path from 'path';
 import { CategoriesModule } from './categories/categories.module';
 import { ProductsModule } from './products/products.module';
 import { Category } from './categories/categories.model';
+import { OrdersModule } from './orders/orders.module';
+import { OrderItem } from './orders/orderItem.model';
 import { Product } from './products/products.model';
 import { FilesModule } from './files/files.module';
 import { LikesModule } from './likes/likes.module';
 import { CartsModule } from './carts/carts.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { Order } from './orders/order.model';
 import { User } from './users/users.model';
 import { Like } from './likes/likes.model';
 import { Cart } from './carts/carts.model';
@@ -32,7 +35,7 @@ import { Cart } from './carts/carts.model';
             username: process.env.POSTGRES_USER,
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
-            models: [User, Category, Product, Like, Cart],
+            models: [User, Category, Product, Like, Cart, Order, OrderItem],
             autoLoadModels: true,
         }),
         UsersModule,
@@ -42,6 +45,7 @@ import { Cart } from './carts/carts.model';
         ProductsModule,
         LikesModule,
         CartsModule,
+        OrdersModule,
     ],
 })
 export class AppModule {}
