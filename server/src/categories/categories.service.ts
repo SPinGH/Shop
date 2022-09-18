@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { ValidationException } from 'src/exceptions/validation.exception';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { ChangeCategoryDto } from './dto/change-category.dto';
+import { CreatedObjectDto } from 'src/dto/created-object.dto';
 import { FilesService } from 'src/files/files.service';
 import { CategoryDto } from './dto/category.dto';
 import { Category } from './categories.model';
@@ -37,7 +38,7 @@ export class CategoriesService {
         const fileName = await this.filesService.createFile(categoryDto.img);
         const category = await this.categoryRepository.create({ ...categoryDto, img: fileName });
 
-        return new CategoryDto(category);
+        return new CreatedObjectDto(category);
     }
 
     async update(id: number, categoryDto: ChangeCategoryDto) {
@@ -68,8 +69,7 @@ export class CategoriesService {
         }
 
         await category.save();
-
-        return new CategoryDto(category);
+        return null;
     }
 
     async delete(id: number) {
@@ -80,6 +80,7 @@ export class CategoriesService {
         }
 
         await this.filesService.deleteFile(category.img);
-        return await category.destroy();
+        await category.destroy();
+        return null;
     }
 }

@@ -18,6 +18,7 @@ import { ValidationException } from 'src/exceptions/validation.exception';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { BaseException } from 'src/exceptions/base.exception';
 import { ChangeCategoryDto } from './dto/change-category.dto';
+import { CreatedObjectDto } from 'src/dto/created-object.dto';
 import { ValidationPipe } from 'src/pipes/validation.pipe';
 import { CategoriesService } from './categories.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -39,7 +40,7 @@ export class CategoriesController {
 
     @ApiOperation({ summary: 'Создание категории' })
     @ApiConsumes('multipart/form-data')
-    @ApiResponse({ status: HttpStatus.CREATED, type: CategoryDto })
+    @ApiResponse({ status: HttpStatus.CREATED, type: CreatedObjectDto })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: BaseException })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ValidationException })
     @FormDataRequest()
@@ -54,7 +55,7 @@ export class CategoriesController {
 
     @ApiOperation({ summary: 'Изменение категории' })
     @ApiConsumes('multipart/form-data')
-    @ApiResponse({ status: HttpStatus.OK, type: CategoryDto })
+    @ApiResponse({ status: HttpStatus.OK, description: 'Категория успешно изменена' })
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: BaseException })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: BaseException })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ValidationException })

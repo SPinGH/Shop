@@ -44,13 +44,14 @@ export class UsersService {
         user.email = dto.email;
         await user.save();
 
-        return new UserDto(user);
+        return null;
     }
 
     async deleteUser(initiator: UserDto, id: number) {
         const user = await this.getUser(initiator, id);
+        await user.destroy();
 
-        return await user.destroy();
+        return null;
     }
 
     private async getUser(initiator: UserDto, id: number) {

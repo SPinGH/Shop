@@ -37,7 +37,7 @@ export class UsersController {
     }
 
     @ApiOperation({ summary: 'Изменеие данных пользователя' })
-    @ApiResponse({ status: HttpStatus.OK, type: UserDto })
+    @ApiResponse({ status: HttpStatus.OK, description: 'Пользователь успешно изменён' })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ValidationException })
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: BaseException })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: BaseException })

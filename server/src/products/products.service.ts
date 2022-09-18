@@ -11,6 +11,7 @@ import { SearchRequest } from './dto/search-request.dto';
 import { FilesService } from 'src/files/files.service';
 import { ProductDto } from './dto/product.dto';
 import { Product } from './products.model';
+import { CreatedObjectDto } from 'src/dto/created-object.dto';
 
 @Injectable()
 export class ProductsService {
@@ -70,7 +71,7 @@ export class ProductsService {
         const fileName = await this.filesService.createFile(productDto.img);
         const product = await this.productRepository.create({ ...productDto, img: fileName });
 
-        return new ProductDto(product);
+        return new CreatedObjectDto(product);
     }
 
     async update(id: number, productDto: ChangeProductDto) {
@@ -106,7 +107,7 @@ export class ProductsService {
         if (productDto.name !== undefined) product.name = productDto.name;
 
         await product.save();
-        return new ProductDto(product);
+        return null;
     }
 
     async delete(id: number) {
@@ -117,6 +118,7 @@ export class ProductsService {
         }
 
         await this.filesService.deleteFile(product.img);
-        return await product.destroy();
+        await product.destroy();
+        return null;
     }
 }

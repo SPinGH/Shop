@@ -17,6 +17,7 @@ import {
 
 import { ValidationException } from 'src/exceptions/validation.exception';
 import { BaseException } from 'src/exceptions/base.exception';
+import { CreatedObjectDto } from 'src/dto/created-object.dto';
 import { CreateProductDto } from './dto/create-product.dto';
 import { ChangeProductDto } from './dto/change-product.dto';
 import { ValidationPipe } from 'src/pipes/validation.pipe';
@@ -42,7 +43,7 @@ export class ProductsController {
 
     @ApiOperation({ summary: 'Создание товара' })
     @ApiConsumes('multipart/form-data')
-    @ApiResponse({ status: HttpStatus.CREATED, type: ProductDto })
+    @ApiResponse({ status: HttpStatus.CREATED, type: CreatedObjectDto })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: BaseException })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ValidationException })
     @FormDataRequest()
@@ -57,7 +58,7 @@ export class ProductsController {
 
     @ApiOperation({ summary: 'Изменение товара' })
     @ApiConsumes('multipart/form-data')
-    @ApiResponse({ status: HttpStatus.OK, type: ProductDto })
+    @ApiResponse({ status: HttpStatus.OK, description: 'Товар успешно изменён' })
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: BaseException })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: BaseException })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ValidationException })
