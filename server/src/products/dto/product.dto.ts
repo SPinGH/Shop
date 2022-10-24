@@ -28,7 +28,10 @@ export class ProductDto {
     @ApiProperty({ required: false, description: 'Категория товара' })
     readonly category?: CategoryDto;
 
-    constructor(product: Product) {
+    @ApiProperty({ example: 12, required: false, description: 'Количество лайков' })
+    readonly likes?: number;
+
+    constructor(product: Product, likes?: number) {
         this.id = product.id;
         this.name = product.name;
         this.description = product.description;
@@ -38,6 +41,9 @@ export class ProductDto {
         this.categoryId = product.categoryId;
         if (product.category) {
             this.category = new CategoryDto(product.category);
+        }
+        if (likes !== undefined) {
+            this.likes = likes;
         }
     }
 }

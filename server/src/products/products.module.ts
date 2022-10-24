@@ -9,13 +9,14 @@ import { ProductsService } from './products.service';
 import { UsersModule } from 'src/users/users.module';
 import { FilesModule } from 'src/files/files.module';
 import { AuthModule } from 'src/auth/auth.module';
+import { Like } from 'src/likes/likes.model';
 import { Product } from './products.model';
 
 @Module({
     controllers: [ProductsController],
     providers: [ProductsService],
     imports: [
-        SequelizeModule.forFeature([Category, Product]),
+        SequelizeModule.forFeature([Category, Product, Like]),
         FilesModule,
         CategoriesModule,
         NestjsFormDataModule,

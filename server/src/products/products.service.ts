@@ -1,22 +1,24 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Op } from 'sequelize';
+import { Op, WhereOptions } from 'sequelize';
 
 import { ValidationException } from 'src/exceptions/validation.exception';
 import { CategoriesService } from 'src/categories/categories.service';
+import { CreatedObjectDto } from 'src/dto/created-object.dto';
 import { CreateProductDto } from './dto/create-product.dto';
 import { ChangeProductDto } from './dto/change-product.dto';
 import { SearchResponse } from './dto/search-response.dto';
 import { SearchRequest } from './dto/search-request.dto';
 import { FilesService } from 'src/files/files.service';
 import { ProductDto } from './dto/product.dto';
+import { Like } from 'src/likes/likes.model';
 import { Product } from './products.model';
-import { CreatedObjectDto } from 'src/dto/created-object.dto';
 
 @Injectable()
 export class ProductsService {
     constructor(
         @InjectModel(Product) private productRepository: typeof Product,
+        @InjectModel(Like) private likeRepository: typeof Like,
         private categoriesService: CategoriesService,
         private filesService: FilesService
     ) {}
@@ -32,26 +34,43 @@ export class ProductsService {
             throw new HttpException('Товар с таким id не найден', HttpStatus.NOT_FOUND);
         }
 
-        return new ProductDto(product);
+        const likes = await this.likeRepository.count({ where: { productId: id } });
+
+        return new ProductDto(product, likes);
+    }
+
+    async getRecomended(id: number) {
+        const product = await this.productRepository.findOne({ where: { id } });
+
+        if (!product) {
+            throw new HttpException('Товар с таким id не найден', HttpStatus.NOT_FOUND);
+        }
+
+        const products = await this.productRepository.findAll({
+            where: {
+                [Op.not]: { id },
+                categoryId: product.categoryId,
+            },
+            limit: 3,
+        });
+
+        return products.map((product) => new ProductDto(product));
     }
 
     async getAll(param: SearchRequest) {
         const { categoryId, query, limit = 5, page = 1 } = param;
         const offset = page * limit - limit;
 
-        let response: { rows: Product[]; count: number };
+        const where: WhereOptions<Product> = {};
 
-        if (categoryId) {
-            response = await this.productRepository.findAndCountAll({ where: { categoryId }, limit, offset });
-        } else if (query) {
-            response = await this.productRepository.findAndCountAll({
-                where: { name: { [Op.like]: `%${query.toLowerCase()}%` } },
-                limit,
-                offset,
-            });
-        } else {
-            response = await this.productRepository.findAndCountAll({ limit, offset });
+        if (categoryId !== undefined) {
+            where.categoryId = categoryId;
         }
+        if (query) {
+            where.name = { [Op.like]: `%${query.toLowerCase()}%` };
+        }
+
+        const response = await this.productRepository.findAndCountAll({ where, limit, offset });
 
         response.rows.map((product) => new ProductDto(product));
 

@@ -33,6 +33,24 @@ import { IdParam } from 'src/dto/id-query.dto';
 export class ProductsController {
     constructor(private productsService: ProductsService) {}
 
+    @ApiOperation({ summary: 'Получение товара' })
+    @ApiResponse({ status: HttpStatus.OK, type: ProductDto })
+    @ApiResponse({ status: HttpStatus.NOT_FOUND, type: BaseException })
+    @UsePipes(ValidationPipe)
+    @Get('/:id')
+    getOne(@Param() param: IdParam) {
+        return this.productsService.getOne(param.id);
+    }
+
+    @ApiOperation({ summary: 'Получение рекомендаций для товара' })
+    @ApiResponse({ status: HttpStatus.OK, type: ProductDto })
+    @ApiResponse({ status: HttpStatus.NOT_FOUND, type: BaseException })
+    @UsePipes(ValidationPipe)
+    @Get('recomended/:id')
+    getRecomended(@Param() param: IdParam) {
+        return this.productsService.getRecomended(param.id);
+    }
+
     @ApiOperation({ summary: 'Получение всех товаров' })
     @ApiResponse({ status: HttpStatus.OK, type: [ProductDto] })
     @UsePipes(ValidationPipe)
