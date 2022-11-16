@@ -1,23 +1,22 @@
 import { createStore } from 'vuex';
 
-interface State {
-    auth: boolean | null;
+import User from '@/models/User';
+
+export interface State {
+    auth: {
+        user: User | null;
+    };
 }
 
 const store = createStore<State>({
     state() {
         return {
-            auth: null,
+            auth: { user: null },
         };
     },
     mutations: {
-        SetAuth(state, auth) {
-            state.auth = auth;
-        },
-    },
-    actions: {
-        setAuth({ commit }, auth: boolean) {
-            commit('SetAuth', auth);
+        SetUser(state, user) {
+            state.auth.user = user;
         },
     },
 });
