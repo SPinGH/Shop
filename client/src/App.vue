@@ -38,7 +38,7 @@ export default defineComponent({
 <style>
 @import './reset.scss';
 @import './vars.scss';
-* {
+html {
     font-family: 'Montserrat', sans-serif;
 }
 .center {
