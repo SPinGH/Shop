@@ -16,9 +16,19 @@ export class CategoriesService {
         private filesService: FilesService
     ) {}
 
-    async getOne(id: number) {
+    async getById(id: number) {
         const category = await this.categoryRepository.findOne({ where: { id } });
         return category;
+    }
+
+    async getOne(id: number) {
+        const category = await this.categoryRepository.findOne({ where: { id } });
+
+        if (!category) {
+            throw new HttpException('Категория с таким id не найдена', HttpStatus.NOT_FOUND);
+        }
+
+        return new CategoryDto(category);
     }
 
     async getAll() {

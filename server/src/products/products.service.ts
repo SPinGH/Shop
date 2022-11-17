@@ -81,7 +81,7 @@ export class ProductsService {
     }
 
     async create(productDto: CreateProductDto) {
-        const category = await this.categoriesService.getOne(productDto.categoryId);
+        const category = await this.categoriesService.getById(productDto.categoryId);
 
         if (!category) {
             throw new ValidationException([{ property: 'categoryId', errors: ['Категория с таким Id не найдена'] }]);
@@ -101,7 +101,7 @@ export class ProductsService {
         }
 
         if (productDto.categoryId !== undefined) {
-            const category = await this.categoriesService.getOne(productDto.categoryId);
+            const category = await this.categoriesService.getById(productDto.categoryId);
 
             if (!category) {
                 throw new ValidationException([

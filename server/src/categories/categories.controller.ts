@@ -31,6 +31,15 @@ import { IdParam } from 'src/dto/id-query.dto';
 export class CategoriesController {
     constructor(private categoriesService: CategoriesService) {}
 
+    @ApiOperation({ summary: 'Получение категории' })
+    @ApiResponse({ status: HttpStatus.OK, type: [CategoryDto] })
+    @ApiResponse({ status: HttpStatus.NOT_FOUND, type: BaseException })
+    @UsePipes(ValidationPipe)
+    @Get('/:id')
+    getOne(@Param() param: IdParam) {
+        return this.categoriesService.getOne(param.id);
+    }
+
     @ApiOperation({ summary: 'Получение всех категорий' })
     @ApiResponse({ status: HttpStatus.OK, type: [CategoryDto] })
     @Get()
