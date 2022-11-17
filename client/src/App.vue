@@ -2,19 +2,23 @@
     <div v-if="isLoading" class="center">
         <app-loader />
     </div>
-    <router-view v-else />
+    <template v-else>
+        <app-header />
+        <router-view />
+    </template>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import AppHeader from '@/components/logic/AppHeader.vue';
 import AppLoader from '@/components/ui/AppLoader.vue';
 import { getUser } from '@/api/userApi';
 import { State } from '@/store';
 
 export default defineComponent({
-    components: { AppLoader },
+    components: { AppLoader, AppHeader },
     setup() {
         const store = useStore<State>();
 

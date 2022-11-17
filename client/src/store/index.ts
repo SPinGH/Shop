@@ -19,6 +19,12 @@ const store = createStore<State>({
             state.auth.user = user;
         },
     },
+    actions: {
+        logout({ commit }) {
+            commit('SetUser', null);
+            localStorage.removeItem('token');
+        },
+    },
 });
 
 export default store;

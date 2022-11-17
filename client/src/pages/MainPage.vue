@@ -1,17 +1,19 @@
 <template>
-    <div class="container">
-        <h1 class="title">OLIOS</h1>
-        <p class="subtitle">МЕБЕЛЬНЫЙ МАГАЗИН</p>
-        <app-button class="viewmore" to="/products">Каталог</app-button>
-        <div class="textBg">МОДЕРН</div>
-    </div>
-    <div class="bg">
-        <picture>
-            <source srcset="../assets/1.avif" type="image/avif" />
-            <source srcset="../assets/1.webp" type="image/webp" />
-            <img src="../assets/1.jpg" alt="furniture" />
-        </picture>
-    </div>
+    <main>
+        <div class="container">
+            <h1 class="title">OLIOS</h1>
+            <p class="subtitle">МЕБЕЛЬНЫЙ МАГАЗИН</p>
+            <app-button class="viewmore" to="/products">Каталог</app-button>
+            <div class="textBg">МОДЕРН</div>
+        </div>
+        <div class="bg">
+            <picture>
+                <source srcset="../assets/1.avif" type="image/avif" />
+                <source srcset="../assets/1.webp" type="image/webp" />
+                <img src="../assets/1.jpg" alt="furniture" />
+            </picture>
+        </div>
+    </main>
 </template>
 
 <script lang="ts">
