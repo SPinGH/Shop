@@ -1,6 +1,8 @@
 <template>
     <app-container class="categories">
-        <page-title>Категории</page-title>
+        <page-header>
+            <h1>Категории</h1>
+        </page-header>
         <ul class="list">
             <li v-for="category in $store.state.categories" :key="category.id">
                 <router-link class="item" :to="`/products/${category.id}`">
@@ -16,10 +18,10 @@ import { defineComponent } from 'vue';
 
 import CategoryItem from '@/components/logic/CategoryItem.vue';
 import AppContainer from '@/components/ui/AppContainer.vue';
-import PageTitle from '@/components/ui/PageTitle.vue';
+import PageHeader from '@/components/ui/PageHeader.vue';
 
 export default defineComponent({
-    components: { AppContainer, CategoryItem, PageTitle },
+    components: { AppContainer, CategoryItem, PageHeader },
 });
 </script>
 

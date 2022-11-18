@@ -9,7 +9,7 @@ export const getCategories = async () => {
     return data;
 };
 
-export const createCategory = async (id: number, body: CategoryBody) => {
+export const createCategory = async (body: CategoryBody) => {
     const { data } = await $authHost.post<{ id: number }>('api/categories', objectToFormData(body));
     return data.id;
 };

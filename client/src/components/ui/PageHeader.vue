@@ -1,5 +1,5 @@
 <template>
-    <h1 class="pageTitle"><slot></slot></h1>
+    <div class="pageHeader"><slot></slot></div>
 </template>
 
 <script lang="ts">
@@ -9,9 +9,13 @@ export default defineComponent({});
 
 <style lang="scss" scoped>
 @import '@/mixins.scss';
-.pageTitle {
+.pageHeader {
     margin-bottom: 20px;
     padding: 0px 60px 0px 0px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     text-transform: uppercase;
     @include respValue('font-size', 34, 18);

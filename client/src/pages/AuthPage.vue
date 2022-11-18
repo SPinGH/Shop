@@ -1,6 +1,8 @@
 <template>
     <app-container class="auth">
-        <page-title>{{ isLoginPage ? 'Вход' : 'Регистрация' }}</page-title>
+        <page-header>
+            <h1>{{ isLoginPage ? 'Вход' : 'Регистрация' }}</h1>
+        </page-header>
         <form class="form" @submit.prevent="onSubmit">
             <app-input class="input" type="email" v-model="inputData.email" label="Почта" :error="errors.email" />
             <app-input
@@ -30,13 +32,13 @@ import { useStore } from 'vuex';
 
 import { login as loginApi, registrate as registrateApi } from '@/api/authApi';
 import AppContainer from '@/components/ui/AppContainer.vue';
+import PageHeader from '@/components/ui/PageHeader.vue';
 import BadRequestError from '@/models/BadRequestError';
 import AppButton from '@/components/ui/AppButton.vue';
-import PageTitle from '@/components/ui/PageTitle.vue';
 import AppInput from '@/components/ui/AppInput.vue';
 
 export default defineComponent({
-    components: { AppContainer, AppInput, AppButton, PageTitle },
+    components: { AppContainer, AppInput, AppButton, PageHeader },
     setup() {
         const store = useStore();
         const router = useRouter();

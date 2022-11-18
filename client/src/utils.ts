@@ -9,7 +9,7 @@ export const getDeclOfNum = (n: number, textForms: string[]) => {
 export const productForms = ['товар', 'товара', 'товаров'];
 export const searchedForms = ['найден', 'найдено', 'найдено'];
 
-export const objectToFormData = (object: { [s: string]: string | Blob }) => {
+export const objectToFormData = (object: { [s: string]: any }) => {
     const formData = new FormData();
     Object.entries(object).forEach(([key, value]) => formData.append(key, value));
 };

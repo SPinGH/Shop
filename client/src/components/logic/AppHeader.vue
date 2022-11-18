@@ -18,7 +18,10 @@
                             </router-link>
                         </li>
                         <li>
-                            <router-link to="/products" class="link" aria-label="К списку товаров">
+                            <router-link
+                                to="/products"
+                                :class="{ link: true, active: $route.path.startsWith('/products') }"
+                                aria-label="К списку товаров">
                                 <products-icon />
                             </router-link>
                         </li>
