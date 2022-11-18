@@ -4,6 +4,7 @@
     </div>
     <template v-else>
         <app-header />
+        <app-aside />
         <router-view />
     </template>
 </template>
@@ -13,12 +14,13 @@ import { defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import AppHeader from '@/components/logic/AppHeader.vue';
+import AppAside from '@/components/logic/AppAside.vue';
 import AppLoader from '@/components/ui/AppLoader.vue';
 import { getUser } from '@/api/userApi';
 import { State } from '@/store';
 
 export default defineComponent({
-    components: { AppLoader, AppHeader },
+    components: { AppLoader, AppHeader, AppAside },
     setup() {
         const store = useStore<State>();
 

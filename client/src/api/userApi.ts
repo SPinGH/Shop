@@ -17,6 +17,6 @@ export const updateUser = async (id: number, body: { email: string }) => {
 };
 
 export const deleteUser = async (id: number) => {
-    await $authHost.get(`api/users/${id}`);
+    await $authHost.delete(`api/users/${id}`);
     return true;
 };
