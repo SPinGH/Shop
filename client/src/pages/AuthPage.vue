@@ -1,6 +1,6 @@
 <template>
     <app-container class="auth">
-        <h1 class="title">{{ isLoginPage ? 'Вход' : 'Регистрация' }}</h1>
+        <page-title>{{ isLoginPage ? 'Вход' : 'Регистрация' }}</page-title>
         <form class="form" @submit.prevent="onSubmit">
             <app-input class="input" type="email" v-model="inputData.email" label="Почта" :error="errors.email" />
             <app-input
@@ -29,13 +29,14 @@ import { AxiosError } from 'axios';
 import { useStore } from 'vuex';
 
 import { login as loginApi, registrate as registrateApi } from '@/api/authApi';
-import AppContainer from '@/components/logic/AppContainer.vue';
-import AppInput from '@/components/logic/AppInput.vue';
+import AppContainer from '@/components/ui/AppContainer.vue';
 import BadRequestError from '@/models/BadRequestError';
 import AppButton from '@/components/ui/AppButton.vue';
+import PageTitle from '@/components/ui/PageTitle.vue';
+import AppInput from '@/components/ui/AppInput.vue';
 
 export default defineComponent({
-    components: { AppContainer, AppInput, AppButton },
+    components: { AppContainer, AppInput, AppButton, PageTitle },
     setup() {
         const store = useStore();
         const router = useRouter();
@@ -109,18 +110,6 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     background-color: var(--dark-bg-color);
-}
-.title {
-    text-transform: uppercase;
-    margin-bottom: 20px;
-
-    font-weight: 300;
-    @include respValue('font-size', 34, 18);
-    color: var(--dark-text-color);
-
-    @media (max-width: 767px) {
-        padding: 0px 0px 0px 58px;
-    }
 }
 .form {
     flex: 1 1 auto;
