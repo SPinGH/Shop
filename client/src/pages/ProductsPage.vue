@@ -2,7 +2,7 @@
     <app-container class="products">
         <page-header>
             <h1>Товары</h1>
-            <category-item v-if="category" :category="category" />
+            <category-item class="category" v-if="category" :category="category" />
         </page-header>
         <app-loader v-if="isLoading" class="loader" />
         <ul v-else class="list">
@@ -23,10 +23,9 @@
 </template>
 
 <script lang="ts">
+import { useInfiniteQuery, useQuery } from 'vue-query';
 import { computed, defineComponent } from 'vue';
-import { useInfiniteQuery } from 'vue-query';
 import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
 
 import ProductItemLink from '@/components/logic/ProductItemLink.vue';
 import CategoryItem from '@/components/logic/CategoryItem.vue';
@@ -35,16 +34,17 @@ import PageHeader from '@/components/ui/PageHeader.vue';
 import AppLoader from '@/components/ui/AppLoader.vue';
 import AppButton from '@/components/ui/AppButton.vue';
 import { getProducts } from '@/api/productsApi';
-import { State } from '@/store';
+import Category from '@/models/Category';
 
 export default defineComponent({
     components: { AppContainer, PageHeader, CategoryItem, AppButton, AppLoader, ProductItemLink },
     setup() {
-        const store = useStore<State>();
         const route = useRoute();
 
+        const { data: categories } = useQuery<Category[]>('categories');
+
         const categoryId = computed(() => (route.params.id ? Number(route.params.id) : undefined));
-        const category = computed(() => store.state.categories?.find((category) => category.id === categoryId.value));
+        const category = computed(() => categories.value?.find((category) => category.id === categoryId.value));
 
         const { data, isLoading, isFetching, error, fetchNextPage, hasNextPage } = useInfiniteQuery(
             ['products', { categoryId }],
@@ -76,6 +76,9 @@ export default defineComponent({
     background-color: var(--dark-bg-color);
     display: flex;
     flex-direction: column;
+}
+.category {
+    padding: 0 !important;
 }
 .loader {
     align-self: center;

@@ -3,8 +3,9 @@
         <page-header>
             <h1>Категории</h1>
         </page-header>
-        <ul class="list">
-            <li v-for="category in $store.state.categories" :key="category.id">
+        <app-loader v-if="isLoading" class="loader" />
+        <ul v-else class="list">
+            <li v-for="category in categories" :key="category.id">
                 <router-link class="item" :to="`/products/${category.id}`">
                     <category-item :category="category" size="large" withHover />
                 </router-link>
@@ -15,13 +16,24 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useQuery } from 'vue-query';
 
 import CategoryItem from '@/components/logic/CategoryItem.vue';
 import AppContainer from '@/components/ui/AppContainer.vue';
 import PageHeader from '@/components/ui/PageHeader.vue';
+import AppLoader from '@/components/ui/AppLoader.vue';
+import { getCategories } from '@/api/categoryApi';
 
 export default defineComponent({
-    components: { AppContainer, CategoryItem, PageHeader },
+    components: { AppContainer, CategoryItem, PageHeader, AppLoader },
+    setup() {
+        const { data: categories, isLoading, isError } = useQuery('categories', getCategories);
+        return {
+            categories,
+            isLoading,
+            isError,
+        };
+    },
 });
 </script>
 
@@ -40,5 +52,11 @@ export default defineComponent({
 }
 .item {
     text-decoration: none;
+}
+.loader {
+    margin: 0 auto;
+
+    font-size: 20px !important;
+    color: var(--primary-color);
 }
 </style>

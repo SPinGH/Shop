@@ -2,7 +2,6 @@ import { AxiosError } from 'axios';
 import { createStore } from 'vuex';
 
 import BaseError from '@/models/BaseError';
-import Category from '@/models/Category';
 import { getUser } from '@/api/userApi';
 import User from '@/models/User';
 
@@ -12,7 +11,6 @@ export interface State {
         error: BaseError | null;
         user: User | null;
     };
-    categories: Category[] | null;
 }
 
 const store = createStore<State>({
@@ -23,7 +21,6 @@ const store = createStore<State>({
                 error: null,
                 user: null,
             },
-            categories: null,
         };
     },
     mutations: {
@@ -35,10 +32,6 @@ const store = createStore<State>({
         },
         SetUser(state, user) {
             state.auth.user = user;
-        },
-
-        SetCategories(state, categories) {
-            state.categories = categories;
         },
     },
     actions: {

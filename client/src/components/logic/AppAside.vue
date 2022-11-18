@@ -5,8 +5,8 @@
         </button>
         <div class="wrapper" :inert="!isAsideOpened">
             <app-loader v-if="isLoading" class="loader" />
-            <ul v-if="$store.state.categories" class="list">
-                <li v-for="category in $store.state.categories" :key="category.id">
+            <ul v-else class="list">
+                <li v-for="category in categories" :key="category.id">
                     <router-link :to="`/products/${category.id}`" class="item">
                         <category-item :category="category" withHover />
                     </router-link>
@@ -20,7 +20,6 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
 import { useQuery } from 'vue-query';
-import { useStore } from 'vuex';
 
 import CategoryItem from '@/components/logic/CategoryItem.vue';
 import AppButton from '@/components/ui/AppButton.vue';
@@ -30,7 +29,6 @@ import { getCategories } from '@/api/categoryApi';
 export default defineComponent({
     components: { AppLoader, AppButton, CategoryItem },
     setup() {
-        const store = useStore();
         const aside = ref<HTMLElement | null>(null);
         const isAsideOpened = ref(false);
 
@@ -50,11 +48,10 @@ export default defineComponent({
             }
         });
 
-        const { data, isLoading, isError } = useQuery('categories', getCategories);
-
-        watch(data, (categories) => store.commit('SetCategories', categories));
+        const { data: categories, isLoading, isError } = useQuery('categories', getCategories);
 
         return {
+            categories,
             aside,
             isAsideOpened,
             toggleIsAsideOpened,
@@ -184,7 +181,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
 
-    font-size: 20px;
+    font-size: 20px !important;
     color: var(--primary-color);
 }
 </style>
