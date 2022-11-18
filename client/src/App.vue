@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isLoading" class="center">
+    <div v-if="$store.state.auth.isLoading" class="center">
         <app-loader />
     </div>
     <template v-else>
@@ -10,13 +10,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 import { useStore } from 'vuex';
 
 import AppHeader from '@/components/logic/AppHeader.vue';
 import AppAside from '@/components/logic/AppAside.vue';
 import AppLoader from '@/components/ui/AppLoader.vue';
-import { getUser } from '@/api/userApi';
 import { State } from '@/store';
 
 export default defineComponent({
@@ -24,19 +23,7 @@ export default defineComponent({
     setup() {
         const store = useStore<State>();
 
-        const isLoading = ref(true);
-
-        getUser()
-            .then((user) => {
-                store.commit('SetUser', user);
-            })
-            .finally(() => {
-                isLoading.value = false;
-            });
-
-        return {
-            isLoading,
-        };
+        onMounted(() => store.dispatch('auth'));
     },
 });
 </script>
