@@ -1,20 +1,23 @@
 <template>
-    <label class="appInputWrapper">
+    <label :class="{ appInputWrapper: true, [variant]: true }">
         <p v-if="label" class="label">{{ label }}</p>
         <input
             :class="{ appInput: true, outlined, withError: error }"
             :type="type"
             :value="modelValue"
+            :disabled="disabled"
             @input="onInput" />
         <p :class="{ error: true, open: !!error }">{{ error }}</p>
     </label>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 export default defineComponent({
     props: {
+        variant: { type: String as PropType<'column' | 'inline'>, default: 'column' },
         type: { type: String, default: 'text' },
+        disabled: Boolean,
         outlined: Boolean,
         modelValue: [String, Number],
         label: String,
@@ -22,7 +25,11 @@ export default defineComponent({
     },
     methods: {
         onInput(e: Event) {
-            this.$emit('update:modelValue', (e.target as HTMLInputElement).value);
+            if (this.type === 'number') {
+                this.$emit('update:modelValue', Number((e.target as HTMLInputElement).value));
+            } else {
+                this.$emit('update:modelValue', (e.target as HTMLInputElement).value);
+            }
         },
     },
 });
@@ -33,18 +40,28 @@ export default defineComponent({
 .appInputWrapper {
     position: relative;
     display: flex;
-    flex-direction: column;
+
+    &.column {
+        flex-direction: column;
+        row-gap: 10px;
+    }
+    &.inline {
+        align-items: center;
+        column-gap: 10px;
+        .appInput {
+            flex: 1 1 auto;
+        }
+    }
 }
 .outlined {
-    box-shadow: 0 0 1px 0px var(--dark-text-color);
+    box-shadow: 0 0 0px 1px var(--dark-text-color);
 }
 .label {
-    margin-bottom: 10px;
-
     font-weight: 400;
     color: var(--dark-text-color);
 }
 .appInput {
+    width: 100%;
     z-index: 1;
     border: none;
     outline: none;

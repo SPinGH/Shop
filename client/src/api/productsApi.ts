@@ -1,6 +1,6 @@
-import { Product } from '@/models/Product';
 import { objectToFormData } from '@/utils';
 import { $authHost, $host } from './index';
+import Product from '@/models/Product';
 
 type ProductBody = Omit<Product, 'id'>;
 

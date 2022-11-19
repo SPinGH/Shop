@@ -4,12 +4,15 @@ import { createStore } from 'vuex';
 import BaseError from '@/models/BaseError';
 import { getUser } from '@/api/userApi';
 import User from '@/models/User';
+import Cart from '@/models/Cart';
+import { getCart } from '@/api/cartApi';
 
 export interface State {
     auth: {
         isLoading: boolean;
         error: BaseError | null;
         user: User | null;
+        cart: Cart[] | null;
     };
 }
 
@@ -20,6 +23,7 @@ const store = createStore<State>({
                 isLoading: false,
                 error: null,
                 user: null,
+                cart: null,
             },
         };
     },
@@ -32,6 +36,9 @@ const store = createStore<State>({
         },
         SetUser(state, user) {
             state.auth.user = user;
+        },
+        SetCart(state, cart) {
+            state.auth.cart = cart;
         },
     },
     actions: {
@@ -46,7 +53,9 @@ const store = createStore<State>({
 
             try {
                 const user = await getUser();
+                const cart = await getCart();
                 commit('SetUser', user);
+                commit('SetCart', cart);
             } catch (error) {
                 if (error instanceof AxiosError && error.response) {
                     commit('SetError', error.response.data);

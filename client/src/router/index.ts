@@ -5,6 +5,7 @@ import ProductsPage from '@/pages/ProductsPage.vue';
 import SearchPage from '@/pages/SearchPage.vue';
 import MainPage from '@/pages/MainPage.vue';
 import AuthPage from '@/pages/AuthPage.vue';
+import CartPage from '@/pages/CartPage.vue';
 import store from '@/store';
 
 const routes: RouteRecordRaw[] = [
@@ -31,6 +32,13 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/search',
         component: SearchPage,
+    },
+    {
+        path: '/cart',
+        component: CartPage,
+        meta: {
+            allowRole: 'USER',
+        },
     },
     {
         path: '/:pathMatch(.*)',

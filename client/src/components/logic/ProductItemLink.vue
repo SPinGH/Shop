@@ -8,7 +8,7 @@
 import { defineComponent, PropType } from 'vue';
 
 import ProductItem from '@/components/logic/ProductItem.vue';
-import { Product } from '@/models/Product';
+import Product from '@/models/Product';
 
 export default defineComponent({
     components: { ProductItem },
