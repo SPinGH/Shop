@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
 import CategoriesPage from '@/pages/CategoriesPage.vue';
 import ProductsPage from '@/pages/ProductsPage.vue';
+import ProductPage from '@/pages/ProductPage.vue';
 import SearchPage from '@/pages/SearchPage.vue';
 import MainPage from '@/pages/MainPage.vue';
 import AuthPage from '@/pages/AuthPage.vue';
@@ -28,6 +29,10 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/products/:id?',
         component: ProductsPage,
+    },
+    {
+        path: '/product/:id',
+        component: ProductPage,
     },
     {
         path: '/search',

@@ -15,7 +15,7 @@
 import { defineComponent, PropType } from 'vue';
 export default defineComponent({
     props: {
-        variant: { type: String as PropType<'column' | 'inline'>, default: 'column' },
+        variant: { type: String as PropType<'vertical' | 'inline'>, default: 'vertical' },
         type: { type: String, default: 'text' },
         disabled: Boolean,
         outlined: Boolean,
@@ -41,7 +41,7 @@ export default defineComponent({
     position: relative;
     display: flex;
 
-    &.column {
+    &.vertical {
         flex-direction: column;
         row-gap: 10px;
     }

@@ -12,7 +12,7 @@
             <app-button
                 class="buy"
                 @click="onCreateOrderClick"
-                :isLoading="createIsLoading"
+                :loading="createIsLoading"
                 :disabled="$store.state.auth.cart?.length === 0">
                 Купить
             </app-button>

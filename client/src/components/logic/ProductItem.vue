@@ -91,6 +91,7 @@ export default defineComponent({
         }
         .img {
             max-width: 80%;
+            height: 150px;
         }
     }
 }

@@ -11,7 +11,7 @@
                 :disabled="changeIsLoading"
                 v-model="quantity"
                 @change="onQuantityChange" />
-            <app-button class="delete" variant="danger" outlined @click="onDeleteClick" :isLoading="deleteIsLoading">
+            <app-button class="delete" variant="danger" outlined @click="onDeleteClick" :loading="deleteIsLoading">
                 Delete
             </app-button>
         </div>
