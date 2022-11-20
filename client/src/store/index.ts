@@ -53,9 +53,11 @@ const store = createStore<State>({
 
             try {
                 const user = await getUser();
-                const cart = await getCart();
                 commit('SetUser', user);
-                commit('SetCart', cart);
+                if (user.role === 'USER') {
+                    const cart = await getCart();
+                    commit('SetCart', cart);
+                }
             } catch (error) {
                 if (error instanceof AxiosError && error.response) {
                     commit('SetError', error.response.data);
