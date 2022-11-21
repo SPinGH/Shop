@@ -2,7 +2,7 @@ import { objectToFormData } from '@/utils';
 import { $authHost, $host } from './index';
 import Product from '@/models/Product';
 
-type ProductBody = Omit<Product, 'id'>;
+export type ProductBody = Omit<Product, 'id' | 'img'> & { img: File | null };
 
 export const getProducts = async (params?: { categoryId?: number; query?: string; limit?: number; page?: number }) => {
     const { data } = await $host.get<{ count: number; rows: Product[] }>('api/products', { params });
@@ -24,8 +24,8 @@ export const createProduct = async (body: ProductBody) => {
     return data.id;
 };
 
-export const updateProduct = async (id: number, body: ProductBody) => {
-    await $authHost.put(`api/products/${id}`, objectToFormData(body));
+export const updateProduct = async (payload: { id: number; body: ProductBody }) => {
+    await $authHost.put(`api/products/${payload.id}`, objectToFormData(payload.body));
     return true;
 };
 

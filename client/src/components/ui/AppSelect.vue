@@ -1,12 +1,15 @@
 <template>
-    <label :class="{ appInputWrapper: true, [variant]: true }">
+    <label :class="{ appSelectWrapper: true, [variant]: true }">
         <p v-if="label" class="label">{{ label }}</p>
-        <input
-            :class="{ appInput: true, outlined, withError: error }"
-            :type="type"
+        <select
+            :class="{ appSelect: true, outlined, withError: error }"
             :value="modelValue"
             :disabled="disabled"
-            @input="onInput" />
+            @change="onchange">
+            <option v-for="option in options" :key="option.value" :value="option.value">
+                {{ option.label }}
+            </option>
+        </select>
         <p :class="{ error: true, open: !!error }">{{ error }}</p>
     </label>
 </template>
@@ -16,20 +19,16 @@ import { defineComponent, PropType } from 'vue';
 export default defineComponent({
     props: {
         variant: { type: String as PropType<'vertical' | 'inline'>, default: 'vertical' },
-        type: { type: String, default: 'text' },
+        options: Array as PropType<{ value: string; label: string }[]>,
         disabled: Boolean,
         outlined: Boolean,
-        modelValue: [String, Number],
+        modelValue: String,
         label: String,
         error: String,
     },
     methods: {
-        onInput(e: Event) {
-            if (this.type === 'number') {
-                this.$emit('update:modelValue', Number((e.target as HTMLInputElement).value));
-            } else {
-                this.$emit('update:modelValue', (e.target as HTMLInputElement).value);
-            }
+        onchange(e: Event) {
+            this.$emit('update:modelValue', (e.target as HTMLInputElement).value);
         },
     },
 });
@@ -37,7 +36,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/mixins.scss';
-.appInputWrapper {
+.appSelectWrapper {
     position: relative;
     display: flex;
 
@@ -60,9 +59,8 @@ export default defineComponent({
     font-weight: 400;
     color: var(--dark-text-color);
 }
-.appInput {
+.appSelect {
     width: 100%;
-    min-width: 70px;
     z-index: 1;
     border: none;
     padding: 0.7em 0.7em;

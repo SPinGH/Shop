@@ -5,3 +5,7 @@ declare module '*.vue' {
     export default component;
 }
 
+declare module '*.svg' {
+    const content: any;
+    export default content;
+}

@@ -1,8 +1,8 @@
 <template>
-    <label :class="{ appInputWrapper: true, [variant]: true }">
+    <label :class="{ appTextareaWrapper: true, [variant]: true }">
         <p v-if="label" class="label">{{ label }}</p>
-        <input
-            :class="{ appInput: true, outlined, withError: error }"
+        <textarea
+            :class="{ apTextarea: true, outlined, withError: error }"
             :type="type"
             :value="modelValue"
             :disabled="disabled"
@@ -19,17 +19,13 @@ export default defineComponent({
         type: { type: String, default: 'text' },
         disabled: Boolean,
         outlined: Boolean,
-        modelValue: [String, Number],
+        modelValue: String,
         label: String,
         error: String,
     },
     methods: {
         onInput(e: Event) {
-            if (this.type === 'number') {
-                this.$emit('update:modelValue', Number((e.target as HTMLInputElement).value));
-            } else {
-                this.$emit('update:modelValue', (e.target as HTMLInputElement).value);
-            }
+            this.$emit('update:modelValue', (e.target as HTMLInputElement).value);
         },
     },
 });
@@ -37,7 +33,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/mixins.scss';
-.appInputWrapper {
+.appTextareaWrapper {
     position: relative;
     display: flex;
 
@@ -60,13 +56,14 @@ export default defineComponent({
     font-weight: 400;
     color: var(--dark-text-color);
 }
-.appInput {
+.apTextarea {
     width: 100%;
-    min-width: 70px;
     z-index: 1;
     border: none;
     padding: 0.7em 0.7em;
     border-radius: 1.7em;
+    resize: none;
+    height: 100px;
 
     font-size: inherit;
     font-weight: inherit;
