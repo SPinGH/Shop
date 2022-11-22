@@ -1,5 +1,5 @@
 <template>
-    <figure :class="{ categoryItem: true, withHover, [size]: true }">
+    <figure :class="{ categoryItem: true, withHover, [variant]: true }">
         <img class="img" :src="imageSrc" :alt="category.name" />
         <figcaption class="caption">{{ category.name }}</figcaption>
     </figure>
@@ -13,7 +13,7 @@ import Category from '@/models/Category';
 export default defineComponent({
     props: {
         category: { type: Object as PropType<Category>, required: true },
-        size: { type: String as PropType<'normal' | 'large'>, default: 'normal' },
+        variant: { type: String as PropType<'normal' | 'inline' | 'large'>, default: 'normal' },
         withHover: Boolean,
     },
     setup(props) {
@@ -24,6 +24,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/mixins.scss';
 .categoryItem {
     text-align: right;
     text-transform: capitalize;
@@ -50,6 +51,29 @@ export default defineComponent({
         }
     }
 
+    &.inline {
+        @include respValue('padding', 15, 8);
+        font-size: 24px;
+        flex-direction: row;
+        text-align-last: left;
+
+        .img {
+            width: 70px;
+            height: 70px;
+            flex: 0 0 70px;
+            margin-right: 20px;
+            margin-left: 0px;
+        }
+        .caption {
+            width: 300px;
+            text-transform: capitalize;
+
+            @include respValue('font-size', 24, 18);
+            font-weight: 300;
+            color: var(--dark-text-color);
+        }
+    }
+
     &.large {
         font-size: 24px;
         flex-direction: row;
@@ -65,7 +89,6 @@ export default defineComponent({
     }
 }
 .img {
-    transition: filter 0.3s ease;
     margin-left: 20px;
     width: 30px;
     height: 30px;

@@ -7,7 +7,7 @@
         <ul v-else class="list">
             <li v-for="category in categories" :key="category.id">
                 <router-link class="item" :to="`/products/${category.id}`">
-                    <category-item :category="category" size="large" withHover />
+                    <category-item :category="category" variant="large" withHover />
                 </router-link>
             </li>
         </ul>

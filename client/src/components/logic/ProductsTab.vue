@@ -20,7 +20,7 @@
     </div>
     <p v-if="products && products.length === 0">Товары не найдены</p>
 
-    <app-modal v-if="isModalVisible" @close="closeModal" label="Изменение товара">
+    <app-modal v-if="isModalVisible" @close="closeModal" label="Добавление товара">
         <template v-slot:body>
             <product-form id="editProductForm" :errors="errors" :onSubmit="onAddClick" />
         </template>
