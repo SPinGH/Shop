@@ -9,25 +9,25 @@
                 <label class="inputLabel" htmlFor="search">Введите название товара, который вы ищете</label>
             </form>
             <app-loader v-if="isLoading" class="loader" />
-            <template v-else>
-                <ul class="list">
-                    <li v-for="product in products" :key="product.id">
+            <ul class="list">
+                <transition-group name="list">
+                    <li v-for="product in products" :key="product.id" class="item">
                         <product-item-link :product="product" variant="twoColumn" hover />
                     </li>
-                </ul>
-                <div class="footer">
-                    <app-button
-                        v-if="hasNextPage"
-                        class="more"
-                        variant="underline"
-                        @click="fetchNextPage"
-                        :loading="isFetching">
-                        Показать больше товаров
-                    </app-button>
-                    <p v-if="products && products.length !== 0" class="count">{{ countString }}</p>
-                </div>
-                <p v-if="products && products.length === 0">Товары не найдены</p>
-            </template>
+                </transition-group>
+            </ul>
+            <div class="footer">
+                <app-button
+                    v-if="hasNextPage"
+                    class="more"
+                    variant="underline"
+                    @click="fetchNextPage"
+                    :loading="isFetching">
+                    Показать больше товаров
+                </app-button>
+                <p v-if="products && products.length !== 0" class="count">{{ countString }}</p>
+            </div>
+            <p v-if="products && products.length === 0">Товары не найдены</p>
         </div>
     </app-container>
 </template>
@@ -53,6 +53,7 @@ export default defineComponent({
             ['products', { query }],
             ({ pageParam = 1 }) => getProducts({ query: query.value, page: pageParam }),
             {
+                keepPreviousData: true,
                 getNextPageParam: (lastPage, pages) =>
                     lastPage.count > pages.length * 5 ? pages.length + 1 : undefined,
             }
@@ -192,6 +193,18 @@ export default defineComponent({
     align-self: center;
     font-size: 20px;
     color: var(--primary-color);
+}
+.item {
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+}
+
+.list-leave-active {
+    position: absolute;
 }
 .list {
     display: grid;

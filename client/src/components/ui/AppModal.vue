@@ -1,19 +1,21 @@
 <template>
-    <div class="modalWrapper">
-        <div class="backdrop" @click="close"></div>
-        <div class="content" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription">
-            <div class="header">
-                <p class="label" id="modalTitle">{{ label }}</p>
-                <button type="button" class="closeBtn" @click="close" aria-label="Закрыть"><close-icon /></button>
-            </div>
-            <div class="body" id="modalDescription">
-                <slot name="body"></slot>
-            </div>
-            <div class="footer">
-                <slot name="footer"></slot>
+    <transition name="fade">
+        <div v-if="visible" class="modalWrapper">
+            <div class="backdrop" @click="close"></div>
+            <div class="content" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription">
+                <div class="header">
+                    <p class="label" id="modalTitle">{{ label }}</p>
+                    <button type="button" class="closeBtn" @click="close" aria-label="Закрыть"><close-icon /></button>
+                </div>
+                <div class="body" id="modalDescription">
+                    <slot name="body"></slot>
+                </div>
+                <div class="footer">
+                    <slot name="footer"></slot>
+                </div>
             </div>
         </div>
-    </div>
+    </transition>
 </template>
 
 <script lang="ts">
@@ -24,6 +26,7 @@ import CloseIcon from '@/components/ui/Icons/CloseIcon.vue';
 export default defineComponent({
     components: { CloseIcon },
     props: {
+        visible: { type: Boolean, required: true },
         label: String,
     },
     methods: {
@@ -35,6 +38,21 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s ease;
+    .content {
+        transition: transform 0.3s ease;
+    }
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+    .content {
+        transform: translateY(20px);
+    }
+}
 .modalWrapper {
     position: fixed;
     top: 0;

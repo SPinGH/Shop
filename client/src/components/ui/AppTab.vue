@@ -1,7 +1,7 @@
 <template>
-    <div class="tab" v-show="isActive">
-        <slot></slot>
-    </div>
+    <transition name="fade">
+        <slot :class="'tab'" v-if="isActive"></slot>
+    </transition>
 </template>
 
 <script lang="ts">
@@ -42,4 +42,25 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s ease;
+    .content {
+        transition: transform 0.3s ease;
+    }
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+    position: absolute;
+    width: calc(100% - 2em);
+    .content {
+        transform: translateY(20px);
+    }
+}
+.tab {
+    flex: 1 1 auto;
+}
+</style>

@@ -2,9 +2,11 @@
     <app-container class="cart">
         <page-header><h1>Корзина</h1></page-header>
         <ul class="list">
-            <li v-for="cart in $store.state.auth.cart" :key="cart.id">
-                <cart-item :cart="cart" />
-            </li>
+            <transition-group name="list">
+                <li v-for="cart in $store.state.auth.cart" :key="cart.id" class="item">
+                    <cart-item :cart="cart" />
+                </li>
+            </transition-group>
         </ul>
         <div class="result">
             <p v-if="$store.state.auth.cart && $store.state.auth.cart.length === 0" class="empty">Корзина пуста</p>
@@ -65,6 +67,18 @@ export default defineComponent({
     flex-direction: column;
 
     background-color: var(--dark-bg-color);
+}
+.item {
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+}
+
+.list-leave-active {
+    position: absolute;
 }
 .list {
     flex: 1 1 auto;

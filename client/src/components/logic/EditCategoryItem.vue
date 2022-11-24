@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <app-modal v-if="isModalVisible" @close="closeModal" label="Изменение категории">
+    <app-modal :visible="isModalVisible" @close="closeModal" label="Изменение категории">
         <template v-slot:body>
             <category-form id="editCategoryForm" :defaultValue="category" :errors="errors" :onSubmit="onUpdateClick" />
         </template>

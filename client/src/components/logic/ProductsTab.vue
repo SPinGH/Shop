@@ -1,37 +1,46 @@
 <template>
-    <div class="header">
-        <div class="filters">
-            <app-select :options="options" outlined v-model="categoryId" />
-            <app-input outlined @keydown="onQueryKeyDown" />
-        </div>
-        <app-button outlined @click="openModal">Добавить</app-button>
-    </div>
-    <app-loader v-if="isLoading" class="loader" />
-    <ul v-else class="list">
-        <li v-for="product in products" :key="product.id">
-            <edit-product-item :product="product" />
-        </li>
-    </ul>
-    <div class="footer">
-        <app-button v-if="hasNextPage" class="more" variant="underline" @click="fetchNextPage" :loading="isFetching">
-            Показать больше товаров
-        </app-button>
-        <p v-if="products && products.length !== 0" class="count">{{ countString }}</p>
-    </div>
-    <p v-if="products && products.length === 0">Товары не найдены</p>
-
-    <app-modal v-if="isModalVisible" @close="closeModal" label="Добавление товара">
-        <template v-slot:body>
-            <product-form id="editProductForm" :errors="errors" :onSubmit="onAddClick" />
-        </template>
-        <template v-slot:footer>
-            <div class="modalControls">
-                <p v-if="errors.global" class="error">{{ errors.global }}</p>
-                <app-button outlined @click="closeModal">Отмена</app-button>
-                <app-button type="submit" form="editProductForm" :loading="createIsLoading">Сохранить</app-button>
+    <div class="productsTab">
+        <div class="header">
+            <div class="filters">
+                <app-select :options="options" outlined v-model="categoryId" />
+                <app-input outlined @keydown="onQueryKeyDown" />
             </div>
-        </template>
-    </app-modal>
+            <app-button outlined @click="openModal">Добавить</app-button>
+        </div>
+        <app-loader v-if="isLoading" class="loader" />
+        <ul class="list">
+            <transition-group name="list">
+                <li v-for="product in products" :key="product.id" class="item">
+                    <edit-product-item :product="product" />
+                </li>
+            </transition-group>
+        </ul>
+        <div class="footer">
+            <app-button
+                v-if="hasNextPage"
+                class="more"
+                variant="underline"
+                @click="fetchNextPage"
+                :loading="isFetching">
+                Показать больше товаров
+            </app-button>
+            <p v-if="products && products.length !== 0" class="count">{{ countString }}</p>
+        </div>
+        <p v-if="products && products.length === 0">Товары не найдены</p>
+
+        <app-modal :visible="isModalVisible" @close="closeModal" label="Добавление товара">
+            <template v-slot:body>
+                <product-form id="editProductForm" :errors="errors" :onSubmit="onAddClick" />
+            </template>
+            <template v-slot:footer>
+                <div class="modalControls">
+                    <p v-if="errors.global" class="error">{{ errors.global }}</p>
+                    <app-button outlined @click="closeModal">Отмена</app-button>
+                    <app-button type="submit" form="editProductForm" :loading="createIsLoading">Сохранить</app-button>
+                </div>
+            </template>
+        </app-modal>
+    </div>
 </template>
 
 <script lang="ts">
@@ -87,6 +96,7 @@ export default defineComponent({
             ['products', params],
             ({ pageParam = 1 }) => getProducts({ ...params.value, page: pageParam }),
             {
+                keepPreviousData: true,
                 getNextPageParam: (lastPage, pages) =>
                     lastPage.count > pages.length * 5 ? pages.length + 1 : undefined,
             }
@@ -139,6 +149,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.productsTab {
+    display: flex;
+    flex-direction: column;
+}
 .header {
     display: flex;
     flex-wrap: wrap;
@@ -156,8 +170,25 @@ export default defineComponent({
     color: var(--primary-color);
 }
 .list {
+    flex: 1 1 auto;
+    position: relative;
     overflow-x: auto;
+    overflow-y: hidden;
 }
+.item {
+    width: 100%;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+}
+
+.list-leave-active {
+    position: absolute;
+}
+
 .footer {
     display: flex;
     align-items: flex-end;

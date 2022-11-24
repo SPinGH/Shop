@@ -1,26 +1,30 @@
 <template>
-    <app-button class="addBtn" outlined @click="openModal">Добавить</app-button>
-    <app-loader v-if="categoriesIsLoading" class="loader" />
-    <ul v-else class="list">
-        <li v-for="category in categories" :key="category.id">
-            <edit-category-item :category="category" />
-        </li>
-    </ul>
-    <p v-if="categories?.length !== 0" class="message">{{ countString }}</p>
-    <p v-else>Товары не найдены</p>
+    <div class="categoriesTab">
+        <app-button class="addBtn" outlined @click="openModal">Добавить</app-button>
+        <app-loader v-if="categoriesIsLoading" class="loader" />
+        <ul class="list">
+            <transition-group name="list">
+                <li v-for="category in categories" :key="category.id" class="item">
+                    <edit-category-item :category="category" />
+                </li>
+            </transition-group>
+        </ul>
+        <p v-if="categories?.length !== 0" class="message">{{ countString }}</p>
+        <p v-else>Товары не найдены</p>
 
-    <app-modal v-if="isModalVisible" @close="closeModal" label="Добавление категории">
-        <template v-slot:body>
-            <category-form id="editProductForm" :errors="errors" :onSubmit="onAddClick" />
-        </template>
-        <template v-slot:footer>
-            <div class="modalControls">
-                <p v-if="errors.global" class="error">{{ errors.global }}</p>
-                <app-button outlined @click="closeModal">Отмена</app-button>
-                <app-button type="submit" form="editProductForm" :loading="createIsLoading">Сохранить</app-button>
-            </div>
-        </template>
-    </app-modal>
+        <app-modal :visible="isModalVisible" @close="closeModal" label="Добавление категории">
+            <template v-slot:body>
+                <category-form id="editProductForm" :errors="errors" :onSubmit="onAddClick" />
+            </template>
+            <template v-slot:footer>
+                <div class="modalControls">
+                    <p v-if="errors.global" class="error">{{ errors.global }}</p>
+                    <app-button outlined @click="closeModal">Отмена</app-button>
+                    <app-button type="submit" form="editProductForm" :loading="createIsLoading">Сохранить</app-button>
+                </div>
+            </template>
+        </app-modal>
+    </div>
 </template>
 
 <script lang="ts">
@@ -88,6 +92,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.categoriesTab {
+    display: flex;
+    flex-direction: column;
+}
 .addBtn {
     display: block;
     margin-left: auto;
@@ -98,7 +106,23 @@ export default defineComponent({
     color: var(--primary-color);
 }
 .list {
+    flex: 1 1 auto;
+    position: relative;
     overflow-x: auto;
+    overflow-y: hidden;
+}
+.item {
+    width: 100%;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+}
+
+.list-leave-active {
+    position: absolute;
 }
 .message {
     font-size: 18px;

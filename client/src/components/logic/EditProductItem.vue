@@ -14,7 +14,7 @@
             </app-button>
         </div>
     </div>
-    <app-modal v-if="isModalVisible" @close="closeModal" label="Изменение товара">
+    <app-modal :visible="isModalVisible" @close="closeModal" label="Изменение товара">
         <template v-slot:body>
             <product-form id="editProductForm" :defaultValue="product" :errors="errors" :onSubmit="onUpdateClick" />
         </template>

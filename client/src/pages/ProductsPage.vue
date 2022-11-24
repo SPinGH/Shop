@@ -5,15 +5,17 @@
             <category-item class="category" v-if="category" :category="category" />
         </page-header>
         <app-loader v-if="isLoading" class="loader" />
-        <ul v-else class="list">
-            <li
-                v-for="(product, index) in products"
-                :key="product.id"
-                :class="{ item: true, [`span${[1, 3, 1, 2, 1][index % 5]}`]: true }">
-                <product-item-link
-                    :product="product"
-                    :variant="[1, 3, 1, 2, 1][index % 5] === 1 ? 'column' : 'twoColumn'" />
-            </li>
+        <ul class="list">
+            <transition-group name="list">
+                <li
+                    v-for="(product, index) in products"
+                    :key="product.id"
+                    :class="{ item: true, [`span${[1, 3, 1, 2, 1][index % 5]}`]: true }">
+                    <product-item-link
+                        :product="product"
+                        :variant="[1, 3, 1, 2, 1][index % 5] === 1 ? 'column' : 'twoColumn'" />
+                </li>
+            </transition-group>
         </ul>
         <app-button v-if="hasNextPage" class="more" variant="underline" @click="fetchNextPage" :loading="isFetching">
             Показать больше товаров
@@ -84,6 +86,18 @@ export default defineComponent({
     align-self: center;
     font-size: 20px;
     color: var(--primary-color);
+}
+.item {
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+}
+
+.list-leave-active {
+    position: absolute;
 }
 .list {
     display: grid;

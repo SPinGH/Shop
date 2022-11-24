@@ -4,12 +4,14 @@
             <h1>Категории</h1>
         </page-header>
         <app-loader v-if="isLoading" class="loader" />
-        <ul v-else class="list">
-            <li v-for="category in categories" :key="category.id">
-                <router-link class="item" :to="`/products/${category.id}`">
-                    <category-item :category="category" variant="large" withHover />
-                </router-link>
-            </li>
+        <ul class="list">
+            <transition-group name="list">
+                <li v-for="category in categories" :key="category.id">
+                    <router-link class="item" :to="`/products/${category.id}`">
+                        <category-item :category="category" variant="large" withHover />
+                    </router-link>
+                </li>
+            </transition-group>
         </ul>
     </app-container>
 </template>
@@ -41,6 +43,15 @@ export default defineComponent({
 @import '../mixins.scss';
 .categories {
     background-color: var(--dark-bg-color);
+}
+
+.list-enter-active,
+.list-leave-active {
+    transition: opacity 0.8s ease;
+}
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
 }
 .list {
     display: grid;

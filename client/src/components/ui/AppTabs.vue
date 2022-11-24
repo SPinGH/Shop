@@ -80,8 +80,13 @@ export default defineComponent({
 }
 .body {
     flex: 1 1 auto;
+
+    position: relative;
     padding: 1em;
     border-radius: 1em;
     background-color: var(--bg-color);
+
+    display: flex;
+    flex-direction: column;
 }
 </style>

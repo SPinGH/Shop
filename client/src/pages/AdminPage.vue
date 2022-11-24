@@ -2,8 +2,8 @@
     <app-container class="admin">
         <page-header><h1>Панель Администратора</h1></page-header>
         <app-tabs class="tabs">
-            <app-tab title="Товары"><products-tab /></app-tab>
-            <app-tab title="Категории"><categories-tab /></app-tab>
+            <app-tab title="Товары"><products-tab class="fullHeight" /></app-tab>
+            <app-tab title="Категории"><categories-tab class="fullHeight" /></app-tab>
         </app-tabs>
     </app-container>
 </template>
@@ -32,7 +32,8 @@ AppContainer
 
     background-color: var(--dark-bg-color);
 }
-.tabs {
+.tabs,
+.fullHeight {
     flex: 1 1 auto;
 }
 </style>
