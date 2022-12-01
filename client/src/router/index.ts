@@ -4,6 +4,7 @@ import CategoriesPage from '@/pages/CategoriesPage.vue';
 import ProductsPage from '@/pages/ProductsPage.vue';
 import ProductPage from '@/pages/ProductPage.vue';
 import SearchPage from '@/pages/SearchPage.vue';
+import OrdersPage from '@/pages/OrdersPage.vue';
 import AdminPage from '@/pages/AdminPage.vue';
 import MainPage from '@/pages/MainPage.vue';
 import AuthPage from '@/pages/AuthPage.vue';
@@ -42,6 +43,13 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/cart',
         component: CartPage,
+        meta: {
+            allowRole: 'USER',
+        },
+    },
+    {
+        path: '/orders',
+        component: OrdersPage,
         meta: {
             allowRole: 'USER',
         },

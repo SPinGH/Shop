@@ -30,7 +30,12 @@
                                 <cart-icon />
                             </router-link>
                         </li>
-                        <li v-else-if="$store.state.auth.user?.role === 'ADMIN'" aria-label="В панель администратора">
+                        <li v-if="$store.state.auth.user?.role === 'USER'" aria-label="В корзину">
+                            <router-link to="/orders" class="link">
+                                <orders-icon />
+                            </router-link>
+                        </li>
+                        <li v-if="$store.state.auth.user?.role === 'ADMIN'" aria-label="В панель администратора">
                             <router-link to="/admin" class="link">
                                 <admin-icon />
                             </router-link>
@@ -57,10 +62,10 @@
 import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import { AdminIcon, AuthIcon, ProductsIcon, SearchIcon, MainIcon, CartIcon } from '@/components/ui/Icons';
+import { AdminIcon, AuthIcon, ProductsIcon, SearchIcon, MainIcon, CartIcon, OrdersIcon } from '@/components/ui/Icons';
 
 export default defineComponent({
-    components: { MainIcon, ProductsIcon, AdminIcon, SearchIcon, AuthIcon, CartIcon },
+    components: { MainIcon, ProductsIcon, AdminIcon, SearchIcon, AuthIcon, CartIcon, OrdersIcon },
     setup() {
         const store = useStore();
         const isMenuOpened = ref(true);

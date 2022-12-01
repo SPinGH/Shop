@@ -1,13 +1,13 @@
 <template>
     <figure :class="{ figure: true, [variant]: true }">
-        <div class="img">
+        <div v-if="product.img" class="img">
             <img :src="imageSrc" :alt="product.name" />
         </div>
         <figcaption class="caption">
-            <p class="name">{{ product.name }}</p>
+            <p v-if="product.name" class="name">{{ product.name }}</p>
             <p v-if="product.description" class="descr">{{ product.description }}</p>
             <div class="priceWrapper">
-                <p class="price">{{ product.discounted ?? product.price }}</p>
+                <p v-if="product.price" class="price">{{ product.discounted ?? product.price }}</p>
                 <p v-if="product.discounted" class="price old">{{ product.price }}</p>
             </div>
         </figcaption>
@@ -21,7 +21,7 @@ import Product from '@/models/Product';
 
 export default defineComponent({
     props: {
-        product: { type: Object as PropType<Product>, required: true },
+        product: { type: Object as PropType<Partial<Product>>, required: true },
         variant: { type: String as PropType<'inline' | 'small' | 'column' | 'twoColumn'>, default: 'column' },
     },
     setup(props) {

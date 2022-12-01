@@ -5,7 +5,7 @@ export default interface Order {
     date: string;
     orderItems: {
         id: number;
-        price: null;
+        price: number;
         quantity: number;
         product: Product;
     }[];

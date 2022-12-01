@@ -9,6 +9,7 @@ import HeartIcon from './HeartIcon.vue';
 import LinkIcon from './LinkIcon.vue';
 import MainIcon from './MainIcon.vue';
 import MinusIcon from './MinusIcon.vue';
+import OrdersIcon from './OrdersIcon.vue';
 import PlusIcon from './PlusIcon.vue';
 import ProductsIcon from './ProductsIcon.vue';
 import SearchIcon from './SearchIcon.vue';
@@ -25,6 +26,7 @@ export {
     LinkIcon,
     MainIcon,
     MinusIcon,
+    OrdersIcon,
     PlusIcon,
     ProductsIcon,
     SearchIcon,
