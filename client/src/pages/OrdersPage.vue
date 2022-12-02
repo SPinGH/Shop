@@ -9,7 +9,7 @@
                 </li>
             </transition-group>
         </ul>
-        <p v-if="orders?.length === 0" class="empty">У вас нет заказов</p>
+        <p v-if="orders?.length === 0">У вас нет заказов</p>
     </app-container>
 </template>
 
@@ -69,8 +69,5 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: flex-end;
-}
-.empty {
-    flex: 1 1 auto;
 }
 </style>

@@ -6,6 +6,7 @@
             :type="type"
             :value="modelValue"
             :disabled="disabled"
+            :placeholder="placeholder"
             @input="onInput" />
         <p :class="{ error: true, open: !!error }">{{ error }}</p>
     </label>
@@ -19,6 +20,7 @@ export default defineComponent({
         type: { type: String, default: 'text' },
         disabled: Boolean,
         outlined: Boolean,
+        placeholder: String,
         modelValue: [String, Number],
         label: String,
         error: String,

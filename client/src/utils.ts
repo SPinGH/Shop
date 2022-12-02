@@ -12,6 +12,7 @@ export const getDeclOfNum = (n: number, textForms: string[]) => {
     return textForms[2];
 };
 export const productForms = ['товар', 'товара', 'товаров'];
+export const orderForms = ['заказ', 'заказа', 'заказов'];
 export const categoryForms = ['категория', 'категории', 'категорий'];
 export const searchedForms = ['найден', 'найдено', 'найдено'];
 

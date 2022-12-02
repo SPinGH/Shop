@@ -22,7 +22,7 @@ import AppLoader from './AppLoader.vue';
 export default defineComponent({
     components: { AppLoader },
     props: {
-        onClick: Function as PropType<() => void>,
+        onClick: Function as PropType<(e: any) => void>,
         to: String,
         type: { type: String as PropType<'button' | 'submit' | 'reset'>, default: 'button' },
         variant: { type: String as PropType<'primary' | 'danger' | 'underline'>, default: 'primary' },

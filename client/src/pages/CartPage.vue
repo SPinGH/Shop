@@ -23,8 +23,8 @@
 </template>
 
 <script lang="ts">
+import { useMutation, useQueryClient } from 'vue-query';
 import { computed, defineComponent } from 'vue';
-import { useMutation } from 'vue-query';
 import { useStore } from 'vuex';
 
 import AppContainer from '@/components/ui/AppContainer.vue';
@@ -37,6 +37,7 @@ import { State } from '@/store';
 export default defineComponent({
     components: { AppContainer, PageHeader, AppButton, CartItem },
     setup() {
+        const queryClient = useQueryClient();
         const store = useStore<State>();
 
         const totalPrice = computed(
@@ -48,7 +49,10 @@ export default defineComponent({
         );
 
         const { mutate: onCreateOrderClick, isLoading: createIsLoading } = useMutation(createOrder, {
-            onSuccess: () => store.commit('SetCart', []),
+            onSuccess: () => {
+                store.commit('SetCart', []);
+                queryClient.refetchQueries('orders');
+            },
         });
 
         return {
