@@ -72,8 +72,6 @@ export class ProductsService {
 
         const response = await this.productRepository.findAndCountAll({ where, limit, offset });
 
-        response.rows.map((product) => new ProductDto(product));
-
         return {
             rows: response.rows.map((product) => new ProductDto(product)),
             count: response.count,
