@@ -59,9 +59,11 @@ export default defineComponent({
 }
 .header {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     margin-bottom: 20px;
     column-gap: 20px;
+    row-gap: 10px;
 }
 .tab {
     padding: 0.7em 2em;

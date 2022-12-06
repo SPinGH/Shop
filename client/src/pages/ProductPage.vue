@@ -2,7 +2,7 @@
     <app-container class="product">
         <app-loader v-if="productIsLoading" class="loader" />
         <div v-if="product" class="view">
-            <product-likes :product="product" />
+            <product-likes class="likes" :product="product" />
             <product-image class="image" :product="product" />
         </div>
         <div v-if="product" class="descr">
@@ -88,6 +88,9 @@ export default defineComponent({
         flex: 0 0 100%;
         padding: 0px 40px 20px;
     }
+}
+.likes {
+    align-self: flex-end;
 }
 .image {
     flex: 1 1 auto;

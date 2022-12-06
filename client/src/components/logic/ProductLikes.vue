@@ -1,14 +1,14 @@
 <template>
     <button
         v-if="canLike"
-        class="likes wthHover"
+        class="productLikes withHover"
         @click="onToggleLikeClick"
         :disabled="likeIsLoading || toggleLikeIsLoading">
         {{ product.likes }}
         <filled-heart-icon v-if="isLiked" class="likesIcon" />
         <heart-icon v-else class="likesIcon" />
     </button>
-    <p v-else class="likes">{{ product.likes }}<heart-icon class="likesIcon" /></p>
+    <p v-else class="productLikes">{{ product.likes }}<heart-icon class="likesIcon" /></p>
 </template>
 
 <script lang="ts">
@@ -69,8 +69,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.likes {
-    align-self: flex-end;
+.productLikes {
     border: none;
     outline: none;
     background: none;
@@ -88,7 +87,7 @@ export default defineComponent({
         margin-right: 10px;
     }
 
-    &.wthHover {
+    &.withHover {
         cursor: pointer;
         @media (any-hover: hover) {
             &:hover {

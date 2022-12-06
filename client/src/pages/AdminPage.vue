@@ -2,6 +2,7 @@
     <app-container class="admin">
         <page-header><h1>Панель Администратора</h1></page-header>
         <app-tabs class="tabs">
+            <app-tab title="Статистика"><statistics-tab class="fullHeight" /></app-tab>
             <app-tab title="Товары"><products-tab class="fullHeight" /></app-tab>
             <app-tab title="Категории"><categories-tab class="fullHeight" /></app-tab>
             <app-tab title="Заказы"><orders-tab class="fullHeight" /></app-tab>
@@ -13,6 +14,7 @@
 import { defineComponent } from 'vue';
 
 import CategoriesTab from '@/components/logic/CategoriesTab.vue';
+import StatisticsTab from '@/components/logic/StatisticsTab.vue';
 import ProductsTab from '@/components/logic/ProductsTab.vue';
 import AppContainer from '@/components/ui/AppContainer.vue';
 import OrdersTab from '@/components/logic/OrdersTab.vue';
@@ -21,7 +23,7 @@ import AppTabs from '@/components/ui/AppTabs.vue';
 import AppTab from '@/components/ui/AppTab.vue';
 
 export default defineComponent({
-    components: { AppContainer, PageHeader, AppTabs, AppTab, ProductsTab, CategoriesTab, OrdersTab },
+    components: { AppContainer, PageHeader, AppTabs, AppTab, ProductsTab, CategoriesTab, OrdersTab, StatisticsTab },
 });
 </script>
 

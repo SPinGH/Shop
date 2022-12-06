@@ -76,9 +76,11 @@ export default defineComponent({
         }
         .price {
             width: 70px;
+            @include respValue('font-size', 20, 18);
         }
         .name {
             width: 300px;
+            @include respValue('font-size', 20, 18);
         }
     }
 
@@ -133,14 +135,14 @@ export default defineComponent({
 }
 .price {
     transition: color 0.3s ease;
-    font-size: 22px;
+    @include respValue('font-size', 22, 18);
     font-weight: 700;
     color: var(--primary-color);
     &::before {
         content: '$';
     }
     &.old {
-        font-size: 14px;
+        font-size: 14px !important;
         text-decoration: line-through;
         color: var(--dark-text-color);
     }

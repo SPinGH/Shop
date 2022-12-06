@@ -68,7 +68,7 @@ export default defineComponent({
             width: 300px;
             text-transform: capitalize;
 
-            @include respValue('font-size', 24, 18);
+            @include respValue('font-size', 20, 18);
             font-weight: 300;
             color: var(--dark-text-color);
         }
