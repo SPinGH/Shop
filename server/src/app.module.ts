@@ -5,6 +5,7 @@ import { Module } from '@nestjs/common';
 import * as path from 'path';
 
 import { CategoriesModule } from './categories/categories.module';
+import { StatisticsModule } from './statistics/statistics.module';
 import { ProductsModule } from './products/products.module';
 import { Category } from './categories/categories.model';
 import { OrdersModule } from './orders/orders.module';
@@ -46,6 +47,7 @@ import { Cart } from './carts/carts.model';
         LikesModule,
         CartsModule,
         OrdersModule,
+        StatisticsModule,
     ],
 })
 export class AppModule {}
