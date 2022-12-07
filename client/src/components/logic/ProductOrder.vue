@@ -19,7 +19,7 @@
                     <app-button to="/cart" class="addToCart">Перейти в корзину</app-button>
                 </div>
             </template>
-            <template v-else>
+            <template v-else-if="$store.state.auth.user.role !== 'ADMIN'">
                 <div class="columnName">Количество</div>
                 <div class="columnBody">
                     <app-input type="number" class="quantity" v-model="quantity" @change="onQuantityChange" />
@@ -28,6 +28,7 @@
                     </app-button>
                 </div>
             </template>
+            <p v-if="addToCartError" class="error">Произошла ошибка при загрузке</p>
         </div>
     </div>
 </template>
@@ -61,7 +62,11 @@ export default defineComponent({
             () => !!store.state.auth.cart?.find((cart) => cart.product.id === props.product.id)
         );
 
-        const { mutate: addToCart, isLoading: addToCartIsLoading } = useMutation(addProductToCart, {
+        const {
+            mutate: addToCart,
+            isLoading: addToCartIsLoading,
+            error: addToCartError,
+        } = useMutation(addProductToCart, {
             onSuccess: (id, { quantity }) => {
                 store.commit('SetCart', [
                     ...(store.state.auth.cart ?? []),
@@ -81,6 +86,7 @@ export default defineComponent({
             onQuantityChange,
             isProductInCart,
             addToCartIsLoading,
+            addToCartError,
             onAddToCartClick,
         };
     },
@@ -138,5 +144,9 @@ export default defineComponent({
 .addToCart {
     font-size: 14px;
     outline: none;
+}
+.error {
+    margin-top: 5px;
+    color: var(--danger-color);
 }
 </style>

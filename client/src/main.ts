@@ -11,6 +11,7 @@ const vueQueryPluginOptions: VueQueryPluginOptions = {
             queries: {
                 refetchOnWindowFocus: false,
                 refetchOnMount: false,
+                staleTime: 1000 * 60 * 5,
             },
         },
     },

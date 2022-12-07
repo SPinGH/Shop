@@ -13,7 +13,7 @@ export default defineComponent({});
     padding: 30px 20px 30px 92px;
 
     @media (max-width: 767px) {
-        padding: 20px;
+        padding: 10px;
     }
 }
 </style>

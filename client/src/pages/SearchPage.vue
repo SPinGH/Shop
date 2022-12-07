@@ -25,9 +25,10 @@
                     :loading="isFetching">
                     Показать больше товаров
                 </app-button>
-                <p v-if="products && products.length !== 0" class="count">{{ countString }}</p>
+                <p v-if="products?.length !== 0" class="count">{{ countString }}</p>
             </div>
-            <p v-if="products && products.length === 0">Товары не найдены</p>
+            <p v-if="products?.length === 0">Товары не найдены</p>
+            <p v-if="error">Произошла ошибка при загрузке</p>
         </div>
     </app-container>
 </template>
@@ -105,6 +106,10 @@ export default defineComponent({
     position: relative;
     overflow: hidden;
     margin-bottom: 20px;
+
+    @media (max-width: 767px) {
+        margin-top: 30px;
+    }
 
     &::after {
         content: '';
@@ -194,27 +199,28 @@ export default defineComponent({
     font-size: 20px;
     color: var(--primary-color);
 }
-.item {
-    transition: opacity 0.8s ease, transform 0.8s ease;
-}
 
-.list-enter-from,
-.list-leave-to {
-    opacity: 0;
-}
-
-.list-leave-active {
-    position: absolute;
-}
 .list {
+    @include respValue('margin-bottom', 60, 20);
+
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     align-items: center;
-    column-gap: 20px;
-    row-gap: 30px;
+    @include respValue('gap', 20, 10);
     grid-auto-flow: dense;
     justify-content: center;
-    @include respValue('margin-bottom', 60, 20);
+
+    position: relative;
+    &-enter-from,
+    &-leave-to {
+        opacity: 0;
+    }
+    &-leave-active {
+        position: absolute;
+    }
+    .item {
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
 }
 .footer {
     display: flex;

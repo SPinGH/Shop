@@ -1,6 +1,9 @@
 <template>
     <app-container class="product">
-        <app-loader v-if="productIsLoading" class="loader" />
+        <div v-if="productIsLoading || productIsFetching" class="loaderWrapper">
+            <app-loader class="loader" />
+        </div>
+        <p v-if="error">Произошла ошибка при загрузке</p>
         <div v-if="product" class="view">
             <product-likes class="likes" :product="product" />
             <product-image class="image" :product="product" />
@@ -49,17 +52,24 @@ export default defineComponent({
 
         const productId = computed(() => Number(route.params.id));
 
-        const { data: product, isLoading: productIsLoading } = useQuery(['product', productId], () =>
-            getProduct(productId.value)
-        );
+        const {
+            data: product,
+            isLoading: productIsLoading,
+            isFetching: productIsFetching,
+            error,
+        } = useQuery(['product', productId], () => getProduct(productId.value), { keepPreviousData: true });
 
-        const { data: recomended, isLoading: recomendedIsLoading } = useQuery(['recomended', productId], () =>
-            getRecomendedProducts(productId.value)
+        const { data: recomended, isLoading: recomendedIsLoading } = useQuery(
+            ['recomended', productId],
+            () => getRecomendedProducts(productId.value),
+            { keepPreviousData: true }
         );
 
         return {
             product,
             productIsLoading,
+            productIsFetching,
+            error,
             recomended,
             recomendedIsLoading,
         };
@@ -73,9 +83,34 @@ export default defineComponent({
     display: flex;
     flex-wrap: wrap;
 }
+.loaderWrapper {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        background-color: var(--bg-color);
+        opacity: 0.3;
+    }
+}
 .loader {
-    margin: 0 auto;
-    font-size: 20px !important;
+    position: relative;
+    z-index: 2;
+    font-size: 24px !important;
+    color: var(--primary-color);
 }
 .view {
     flex: 0 0 50%;
@@ -119,7 +154,7 @@ export default defineComponent({
 
     @media (max-width: 767px) {
         padding-top: 20px;
-        margin-top: 0px;
+        margin: 0px -10px 0px -30px;
     }
 }
 .header {

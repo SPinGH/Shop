@@ -13,6 +13,8 @@
                 </li>
             </transition-group>
         </ul>
+        <p v-if="categories?.length === 0">Категории не найдены</p>
+        <p v-if="error">Произошла ошибка при загрузке</p>
     </app-container>
 </template>
 
@@ -29,11 +31,11 @@ import { getCategories } from '@/api/categoryApi';
 export default defineComponent({
     components: { AppContainer, CategoryItem, PageHeader, AppLoader },
     setup() {
-        const { data: categories, isLoading, isError } = useQuery('categories', getCategories);
+        const { data: categories, isLoading, error } = useQuery('categories', getCategories);
         return {
             categories,
             isLoading,
-            isError,
+            error,
         };
     },
 });
@@ -45,14 +47,6 @@ export default defineComponent({
     background-color: var(--dark-bg-color);
 }
 
-.list-enter-active,
-.list-leave-active {
-    transition: opacity 0.8s ease;
-}
-.list-enter-from,
-.list-leave-to {
-    opacity: 0;
-}
 .list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -60,6 +54,18 @@ export default defineComponent({
     column-gap: 20px;
     row-gap: 30px;
     grid-auto-flow: dense;
+
+    position: relative;
+    &-enter-from,
+    &-leave-to {
+        opacity: 0;
+    }
+    &-leave-active {
+        position: absolute;
+    }
+    .item {
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
 }
 .item {
     text-decoration: none;

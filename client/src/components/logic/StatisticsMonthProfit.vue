@@ -49,6 +49,7 @@
                 </text>
             </template>
         </svg>
+        <p v-if="error" class="error">Произошла ошибка при загрузке</p>
     </statistics-card>
 </template>
 
@@ -57,8 +58,8 @@ import { computed, defineComponent, ref } from 'vue';
 import { useQuery } from 'vue-query';
 
 import StatisticsCard from '@/components/logic/StatisticsCard.vue';
+import AppInput from '@/components/ui/AppInput.vue';
 import { getProfit } from '@/api/statisticsApi';
-import AppInput from '../ui/AppInput.vue';
 
 export default defineComponent({
     components: { StatisticsCard, AppInput },
@@ -123,5 +124,8 @@ export default defineComponent({
     ellipse {
         transition: cy 0.6s ease;
     }
+}
+.error {
+    font-size: 0.8em;
 }
 </style>

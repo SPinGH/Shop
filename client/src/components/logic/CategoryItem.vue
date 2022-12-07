@@ -45,7 +45,7 @@ export default defineComponent({
             &:hover {
                 color: var(--dark-text-color);
                 .img {
-                    filter: brightness(0.7);
+                    filter: brightness(0.5);
                 }
             }
         }
@@ -93,5 +93,6 @@ export default defineComponent({
     width: 30px;
     height: 30px;
     flex: 0 0 30px;
+    transition: filter 0.3s ease;
 }
 </style>

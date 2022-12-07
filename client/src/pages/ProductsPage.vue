@@ -20,7 +20,8 @@
         <app-button v-if="hasNextPage" class="more" variant="underline" @click="fetchNextPage" :loading="isFetching">
             Показать больше товаров
         </app-button>
-        <p v-if="products && products.length === 0">Товары не найдены</p>
+        <p v-if="products?.length === 0">Товары не найдены</p>
+        <p v-if="error">Произошла ошибка при загрузке</p>
     </app-container>
 </template>
 
@@ -87,24 +88,12 @@ export default defineComponent({
     font-size: 20px;
     color: var(--primary-color);
 }
-.item {
-    transition: opacity 0.8s ease, transform 0.8s ease;
-}
 
-.list-enter-from,
-.list-leave-to {
-    opacity: 0;
-}
-
-.list-leave-active {
-    position: absolute;
-}
 .list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-auto-flow: dense;
     gap: 20px;
-    margin-bottom: 20px;
 
     @media (max-width: 1140px) {
         grid-template-columns: repeat(3, 1fr);
@@ -114,6 +103,56 @@ export default defineComponent({
     }
     @media (max-width: 424px) {
         grid-template-columns: 1fr;
+    }
+
+    position: relative;
+
+    &-enter-from,
+    &-leave-to {
+        opacity: 0;
+    }
+    &-leave-active {
+        position: absolute;
+        &.span3 {
+            width: calc(75% - 5px);
+        }
+        &.span2 {
+            width: calc(50% - 10px);
+        }
+        &.span1 {
+            width: calc(25% - 15px);
+        }
+        @media (max-width: 1140px) {
+            &.span3 {
+                width: 100%;
+            }
+            &.span2 {
+                width: calc(66.6666% - 6.6666px);
+            }
+            &.span1 {
+                width: calc(33.3333% - 13.3333px);
+            }
+        }
+        @media (max-width: 600px) {
+            &.span3,
+            &.span2 {
+                width: 100%;
+            }
+            &.span1 {
+                width: calc(50% - 10px);
+            }
+        }
+        @media (max-width: 424px) {
+            &.span3,
+            &.span2,
+            &.span1 {
+                width: 100%;
+            }
+        }
+    }
+
+    .item {
+        transition: opacity 0.8s ease, transform 0.8s ease;
     }
 }
 .item {
@@ -138,6 +177,7 @@ export default defineComponent({
     }
 }
 .more {
+    margin-top: 10px;
     align-self: center;
 }
 </style>

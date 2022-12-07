@@ -17,9 +17,12 @@ export const categoryForms = ['категория', 'категории', 'ка�
 export const searchedForms = ['найден', 'найдено', 'найдено'];
 
 export const objectToFormData = (object: { [s: string]: any }) => {
+    console.log(object);
+
     const formData = new FormData();
     Object.entries(object).forEach(([key, value]) => {
-        if (value !== null) formData.append(key, value);
+        if (value === null) formData.append(key, '');
+        else if (value !== undefined) formData.append(key, value);
     });
     return formData;
 };

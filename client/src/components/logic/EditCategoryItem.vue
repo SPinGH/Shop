@@ -2,7 +2,7 @@
     <div class="editProductItem">
         <category-item :category="category" variant="inline" />
         <div class="controls">
-            <app-button class="control" outlined @click="openModal" aria-label="Редактировать">
+            <app-button class="control" outlined @click="openEditModal" aria-label="Редактировать">
                 <edit-icon class="controlIcon" />
             </app-button>
             <app-button class="control" variant="danger" outlined @click="onDeleteClick" aria-label="Удалить">
@@ -12,14 +12,28 @@
         </div>
     </div>
 
-    <app-modal :visible="isModalVisible" @close="closeModal" label="Изменение категории">
+    <app-modal :visible="isMessageModalVisible" @close="closeMessageModal" label="Ошибка при удалении категории">
+        <template v-slot:body>
+            <p class="message">
+                Категорию невозможно удалить так как существуют товары <br />
+                из этой категории
+            </p>
+        </template>
+        <template v-slot:footer>
+            <div class="modalControls">
+                <app-button outlined @click="closeMessageModal">Хорошо</app-button>
+            </div>
+        </template>
+    </app-modal>
+
+    <app-modal :visible="isEditModalVisible" @close="closeEditModal" label="Изменение категории">
         <template v-slot:body>
             <category-form id="editCategoryForm" :defaultValue="category" :errors="errors" :onSubmit="onUpdateClick" />
         </template>
         <template v-slot:footer>
             <div class="modalControls">
                 <p v-if="errors.global" class="error">{{ errors.global }}</p>
-                <app-button outlined @click="closeModal">Отмена</app-button>
+                <app-button outlined @click="closeEditModal">Отмена</app-button>
                 <app-button type="submit" form="editCategoryForm" :loading="updateIsLoading">Сохранить</app-button>
             </div>
         </template>
@@ -51,10 +65,13 @@ export default defineComponent({
     },
     setup(props) {
         const queryClient = useQueryClient();
-        const isModalVisible = ref(false);
+        const isEditModalVisible = ref(false);
+        const isMessageModalVisible = ref(false);
 
-        const closeModal = () => (isModalVisible.value = false);
-        const openModal = () => (isModalVisible.value = true);
+        const closeEditModal = () => (isEditModalVisible.value = false);
+        const openEditModal = () => (isEditModalVisible.value = true);
+
+        const closeMessageModal = () => (isMessageModalVisible.value = false);
 
         const errors = ref({
             name: '',
@@ -65,7 +82,7 @@ export default defineComponent({
         const { mutate: updateCategory, isLoading: updateIsLoading } = useMutation(updateCategoryApi, {
             onSuccess: () => {
                 clearErrors(errors);
-                isModalVisible.value = false;
+                isEditModalVisible.value = false;
                 queryClient.invalidateQueries('categories');
             },
             onError: (error: any) => {
@@ -78,15 +95,20 @@ export default defineComponent({
             onSuccess: () => {
                 queryClient.invalidateQueries('categories');
             },
+            onError: () => {
+                isMessageModalVisible.value = true;
+            },
         });
 
         const onDeleteClick = () => deleteCategory(props.category.id);
         const onUpdateClick = (body: CategoryBody) => updateCategory({ id: props.category.id, body });
 
         return {
-            isModalVisible,
-            openModal,
-            closeModal,
+            isEditModalVisible,
+            openEditModal,
+            closeEditModal,
+            isMessageModalVisible,
+            closeMessageModal,
             onUpdateClick,
             updateIsLoading,
             errors,
@@ -121,6 +143,9 @@ export default defineComponent({
     display: flex;
     align-items: center;
     gap: 10px;
+}
+.message {
+    line-height: 1.2em;
 }
 .error {
     color: var(--danger-color);

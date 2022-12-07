@@ -14,6 +14,7 @@
                 <p v-show="!isExpanded" class="date">({{ new Date(order.date).toLocaleString() }})</p>
                 <p v-show="!isExpanded" class="price">{{ totalPrice }}</p>
             </div>
+            <p v-if="deleteError" class="error">Не удалось удалить заказ</p>
             <app-button class="control" variant="danger" @click="onDeleteOrderClick" outlined aria-label="Удалить">
                 <app-loader v-if="deleteIsLoading" class="controlLoader" />
                 <delete-icon v-else class="controlIcon" />
@@ -56,7 +57,11 @@ export default defineComponent({
                 0
         );
 
-        const { mutate: deleteOrder, isLoading: deleteIsLoading } = useMutation(deleteOrderApi, {
+        const {
+            mutate: deleteOrder,
+            isLoading: deleteIsLoading,
+            error: deleteError,
+        } = useMutation(deleteOrderApi, {
             onSuccess: () => {
                 queryClient.invalidateQueries('ordersAll');
             },
@@ -74,6 +79,7 @@ export default defineComponent({
             totalPrice,
             onDeleteOrderClick,
             deleteIsLoading,
+            deleteError,
         };
     },
 });
@@ -151,5 +157,8 @@ export default defineComponent({
 }
 .controlLoader {
     font-size: 20px !important;
+}
+.error {
+    color: var(--danger-color);
 }
 </style>

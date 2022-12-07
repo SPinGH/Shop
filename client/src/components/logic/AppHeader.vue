@@ -72,7 +72,11 @@ export default defineComponent({
 
         const menuButtonLabel = computed(() => `${isMenuOpened.value ? 'Закрыть' : 'Открыть'} меню`);
 
-        const toggleMenuVisible = () => (isMenuOpened.value = !isMenuOpened.value);
+        const toggleMenuVisible = () => {
+            if (window.innerWidth < 767 || !isMenuOpened.value) {
+                isMenuOpened.value = !isMenuOpened.value;
+            }
+        };
         const logOut = () => store.dispatch('logout');
 
         return {

@@ -52,6 +52,10 @@ export default defineComponent({
         justify-content: center;
     }
 
+    &:not(.inline) .descr {
+        display: none;
+    }
+
     &.inline {
         flex-direction: row;
         align-items: center;

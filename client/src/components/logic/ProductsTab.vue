@@ -24,9 +24,10 @@
                 :loading="isFetching">
                 Показать больше товаров
             </app-button>
-            <p v-if="products && products.length !== 0" class="count">{{ countString }}</p>
+            <p v-if="products?.length !== 0" class="count">{{ countString }}</p>
         </div>
-        <p v-if="products && products.length === 0">Товары не найдены</p>
+        <p v-if="products?.length === 0">Товары не найдены</p>
+        <p v-if="error">Произошла ошибка при загрузке</p>
 
         <app-modal :visible="isModalVisible" @close="closeModal" label="Добавление товара">
             <template v-slot:body>
@@ -171,22 +172,23 @@ export default defineComponent({
 }
 .list {
     flex: 1 1 auto;
-    position: relative;
     overflow-x: auto;
     overflow-y: hidden;
+
+    position: relative;
+    &-enter-from,
+    &-leave-to {
+        opacity: 0;
+    }
+    &-leave-active {
+        position: absolute;
+    }
+    .item {
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
 }
 .item {
     width: 100%;
-    transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.list-enter-from,
-.list-leave-to {
-    opacity: 0;
-}
-
-.list-leave-active {
-    position: absolute;
 }
 
 .footer {

@@ -9,7 +9,8 @@
             </transition-group>
         </ul>
         <div class="result">
-            <p v-if="$store.state.auth.cart && $store.state.auth.cart.length === 0" class="empty">Корзина пуста</p>
+            <p v-if="$store.state.auth.cart?.length === 0" class="empty">Корзина пуста</p>
+            <p v-if="createError" class="error">Не удалось создать заказ</p>
             <span class="price">{{ totalPrice }}</span>
             <app-button
                 class="buy"
@@ -48,7 +49,11 @@ export default defineComponent({
                 ) ?? 0
         );
 
-        const { mutate: onCreateOrderClick, isLoading: createIsLoading } = useMutation(createOrder, {
+        const {
+            mutate: onCreateOrderClick,
+            isLoading: createIsLoading,
+            error: createError,
+        } = useMutation(createOrder, {
             onSuccess: () => {
                 store.commit('SetCart', []);
                 queryClient.refetchQueries('orders');
@@ -59,6 +64,7 @@ export default defineComponent({
             totalPrice,
             onCreateOrderClick,
             createIsLoading,
+            createError,
         };
     },
 });
@@ -72,18 +78,6 @@ export default defineComponent({
 
     background-color: var(--dark-bg-color);
 }
-.item {
-    transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.list-enter-from,
-.list-leave-to {
-    opacity: 0;
-}
-
-.list-leave-active {
-    position: absolute;
-}
 .list {
     flex: 1 1 auto;
     margin-bottom: 20px;
@@ -94,17 +88,30 @@ export default defineComponent({
     row-gap: 30px;
     grid-auto-flow: dense;
     justify-content: center;
+
+    position: relative;
+    &-enter-from,
+    &-leave-to {
+        opacity: 0;
+    }
+    &-leave-active {
+        position: absolute;
+    }
+    .item {
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
 }
 .result {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    gap: 10px;
 }
 .empty {
     flex: 1 1 auto;
 }
 .price {
-    margin-right: 30px;
+    margin-right: 20px;
 
     transition: color 0.3s ease;
     font-size: 32px;
@@ -114,5 +121,8 @@ export default defineComponent({
     &::before {
         content: '$';
     }
+}
+.error {
+    color: var(--danger-color);
 }
 </style>

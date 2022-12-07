@@ -76,7 +76,7 @@ export default defineComponent({
             props.onSubmit({
                 name: product.value.name,
                 description: product.value.description || null,
-                img: product.value.file ?? null,
+                img: product.value.file ?? undefined,
                 categoryId: Number(product.value.categoryId),
                 price: product.value.price,
                 discounted: product.value.discounted || null,

@@ -5,13 +5,14 @@
         </button>
         <div class="wrapper" :inert="!isAsideOpened">
             <app-loader v-if="isLoading" class="loader" />
-            <ul v-else class="list">
+            <ul class="list">
                 <li v-for="category in categories" :key="category.id">
                     <router-link :to="`/products/${category.id}`" class="item">
                         <category-item :category="category" withHover />
                     </router-link>
                 </li>
             </ul>
+            <p v-if="error">Произошла ошибка при загрузке</p>
             <app-button to="/categories" variant="underline">Показать все категории</app-button>
         </div>
     </aside>
@@ -48,7 +49,7 @@ export default defineComponent({
             }
         });
 
-        const { data: categories, isLoading, isError } = useQuery('categories', getCategories);
+        const { data: categories, isLoading, error } = useQuery('categories', getCategories);
 
         return {
             categories,
@@ -56,7 +57,7 @@ export default defineComponent({
             isAsideOpened,
             toggleIsAsideOpened,
             isLoading,
-            isError,
+            error,
         };
     },
 });

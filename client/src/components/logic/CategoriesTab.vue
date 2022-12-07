@@ -11,6 +11,7 @@
         </ul>
         <p v-if="categories?.length !== 0" class="message">{{ countString }}</p>
         <p v-else>Товары не найдены</p>
+        <p v-if="categoriesError">Произошла ошибка при загрузке</p>
 
         <app-modal :visible="isModalVisible" @close="closeModal" label="Добавление категории">
             <template v-slot:body>
@@ -56,7 +57,11 @@ export default defineComponent({
             global: '',
         });
 
-        const { data: categories, isLoading: categoriesIsLoading } = useQuery<Category[]>('categories', getCategories);
+        const {
+            data: categories,
+            isLoading: categoriesIsLoading,
+            error: categoriesError,
+        } = useQuery<Category[]>('categories', getCategories);
 
         const countString = computed(() => {
             const num = categories.value?.length ?? 0;
@@ -82,6 +87,7 @@ export default defineComponent({
             closeModal,
             categories,
             categoriesIsLoading,
+            categoriesError,
             onAddClick,
             createIsLoading,
             errors,
@@ -107,22 +113,23 @@ export default defineComponent({
 }
 .list {
     flex: 1 1 auto;
-    position: relative;
     overflow-x: auto;
     overflow-y: hidden;
+
+    position: relative;
+    &-enter-from,
+    &-leave-to {
+        opacity: 0;
+    }
+    &-leave-active {
+        position: absolute;
+    }
+    .item {
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
 }
 .item {
     width: 100%;
-    transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.list-enter-from,
-.list-leave-to {
-    opacity: 0;
-}
-
-.list-leave-active {
-    position: absolute;
 }
 .message {
     font-size: 18px;

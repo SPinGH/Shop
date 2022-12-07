@@ -2,7 +2,7 @@ import { $host, $authHost } from './index';
 import { objectToFormData } from '@/utils';
 import Category from '@/models/Category';
 
-export type CategoryBody = Omit<Category, 'id' | 'img'> & { img: File | null };
+export type CategoryBody = Omit<Category, 'id' | 'img'> & { img?: File | null };
 
 export const getCategories = async () => {
     const { data } = await $host.get<Category[]>('api/categories');

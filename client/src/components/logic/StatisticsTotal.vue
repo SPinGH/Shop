@@ -1,26 +1,29 @@
 <template>
     <div class="statisticsTotal">
         <app-loader v-if="isLoading" />
-        <statistics-card>
-            <p class="title">Товары</p>
-            <p class="content">{{ total?.products }}</p>
-        </statistics-card>
-        <statistics-card>
-            <p class="title">Категории</p>
-            <p class="content">{{ total?.categories }}</p>
-        </statistics-card>
-        <statistics-card>
-            <p class="title">Заказы</p>
-            <p class="content">{{ total?.orders }}</p>
-        </statistics-card>
-        <statistics-card>
-            <p class="title">Пользователи</p>
-            <p class="content">{{ total?.users }}</p>
-        </statistics-card>
-        <statistics-card>
-            <p class="title">Продажи</p>
-            <p class="content price">{{ total?.profit }}</p>
-        </statistics-card>
+        <template v-else>
+            <statistics-card>
+                <p class="title">Товары</p>
+                <p class="content">{{ total?.products }}</p>
+            </statistics-card>
+            <statistics-card>
+                <p class="title">Категории</p>
+                <p class="content">{{ total?.categories }}</p>
+            </statistics-card>
+            <statistics-card>
+                <p class="title">Заказы</p>
+                <p class="content">{{ total?.orders }}</p>
+            </statistics-card>
+            <statistics-card>
+                <p class="title">Пользователи</p>
+                <p class="content">{{ total?.users }}</p>
+            </statistics-card>
+            <statistics-card>
+                <p class="title">Продажи</p>
+                <p class="content price">{{ total?.profit }}</p>
+            </statistics-card>
+        </template>
+        <p v-if="error">Произошла ошибка при загрузке</p>
     </div>
 </template>
 

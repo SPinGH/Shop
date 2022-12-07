@@ -23,7 +23,7 @@ export default defineComponent({});
     color: var(--dark-text-color);
 
     @media (max-width: 767px) {
-        padding: 0px 60px 0px 52px;
+        padding: 10px 70px 0px 62px;
     }
 }
 </style>

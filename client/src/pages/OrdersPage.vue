@@ -10,6 +10,7 @@
             </transition-group>
         </ul>
         <p v-if="orders?.length === 0">У вас нет заказов</p>
+        <p v-if="error">Произошла ошибка при загрузке</p>
     </app-container>
 </template>
 
@@ -44,26 +45,27 @@ export default defineComponent({
 
     background-color: var(--dark-bg-color);
 }
-.item {
-    transition: opacity 0.8s ease, transform 0.8s ease;
-    &:not(:last-child) {
-        margin-bottom: 10px;
-    }
-}
 
-.list-enter-from,
-.list-leave-to {
-    opacity: 0;
-}
-
-.list-leave-active {
-    position: absolute;
-}
 .list {
     flex: 1 1 auto;
     position: relative;
     overflow-x: auto;
     overflow-y: hidden;
+
+    position: relative;
+    &-enter-from,
+    &-leave-to {
+        opacity: 0;
+    }
+    &-leave-active {
+        position: absolute;
+    }
+    .item {
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+}
+.item:not(:last-child) {
+    margin-bottom: 10px;
 }
 .result {
     display: flex;

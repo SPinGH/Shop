@@ -30,7 +30,7 @@ export default defineComponent({
         const handleSubmit = () =>
             props.onSubmit({
                 name: category.value.name,
-                img: category.value.file ?? null,
+                img: category.value.file ?? undefined,
             });
 
         return {

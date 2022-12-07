@@ -4,6 +4,7 @@
             <p class="title">Топ популярных товаров</p>
             <app-select class="select" :options="options" outlined v-model="categoryId" />
         </div>
+        <app-loader v-if="isLoading || isFetching" class="loader" />
         <ul>
             <transition-group name="list">
                 <li v-for="product in products" :key="product.id" class="item">
@@ -18,6 +19,8 @@
                 </li>
             </transition-group>
         </ul>
+        <p v-if="products?.length === 0">Товары не найдены</p>
+        <p v-if="error" class="error">Произошла ошибка при загрузке</p>
     </statistics-card>
 </template>
 
@@ -29,11 +32,12 @@ import StatisticsCard from '@/components/logic/StatisticsCard.vue';
 import ProductLikes from '@/components/logic/ProductLikes.vue';
 import ProductItem from '@/components/logic/ProductItem.vue';
 import AppSelect from '@/components/ui/AppSelect.vue';
+import AppLoader from '@/components/ui/AppLoader.vue';
 import { getPopular } from '@/api/statisticsApi';
 import Category from '@/models/Category';
 
 export default defineComponent({
-    components: { StatisticsCard, ProductItem, ProductLikes, AppSelect },
+    components: { StatisticsCard, ProductItem, ProductLikes, AppSelect, AppLoader },
     setup() {
         const categoryId = ref('');
 
@@ -48,13 +52,19 @@ export default defineComponent({
             ...(categories.value?.map((category) => ({ value: category.id.toString(), label: category.name })) ?? []),
         ]);
 
-        const { data: products, isLoading, error } = useQuery(['popular', params], () => getPopular(params.value));
+        const {
+            data: products,
+            isLoading,
+            isFetching,
+            error,
+        } = useQuery(['popular', params], () => getPopular(params.value));
 
         return {
             categoryId,
             options,
             products,
             isLoading,
+            isFetching,
             error,
         };
     },
@@ -73,21 +83,27 @@ export default defineComponent({
 .select {
     font-size: 16px !important;
 }
+.loader {
+    align-self: center;
+    font-size: 20px;
+    color: var(--primary-color);
+}
 .list {
     position: relative;
+    &-enter-from,
+    &-leave-to {
+        opacity: 0;
+    }
+    &-leave-active {
+        position: absolute;
+    }
+    .item {
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
 }
 
-.list-enter-from,
-.list-leave-to {
-    opacity: 0;
-}
-
-.list-leave-active {
-    position: absolute;
-}
 .item {
     width: 100%;
-    transition: opacity 0.8s ease, transform 0.8s ease;
 
     display: flex;
     align-items: center;
@@ -96,5 +112,8 @@ export default defineComponent({
 }
 .product {
     padding: 0 !important;
+}
+.error {
+    font-size: 0.8em;
 }
 </style>

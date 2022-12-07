@@ -5,7 +5,7 @@
             <app-button class="control" :to="`/product/${product.id}`" outlined aria-label="Перейти к товару">
                 <link-icon class="controlIcon" />
             </app-button>
-            <app-button class="control" outlined @click="openModal" aria-label="Редактировать">
+            <app-button class="control" outlined @click="openEditModal" aria-label="Редактировать">
                 <edit-icon class="controlIcon" />
             </app-button>
             <app-button class="control" variant="danger" outlined @click="onDeleteClick" aria-label="Удалить">
@@ -14,14 +14,29 @@
             </app-button>
         </div>
     </div>
-    <app-modal :visible="isModalVisible" @close="closeModal" label="Изменение товара">
+
+    <app-modal :visible="isMessageModalVisible" @close="closeMessageModal" label="Ошибка при удалении товара">
+        <template v-slot:body>
+            <p class="message">
+                Товар невозможно удалить так как существуют заказы <br />
+                с этим товаром
+            </p>
+        </template>
+        <template v-slot:footer>
+            <div class="modalControls">
+                <app-button outlined @click="closeMessageModal">Хорошо</app-button>
+            </div>
+        </template>
+    </app-modal>
+
+    <app-modal :visible="isEditModalVisible" @close="closeEditModal" label="Изменение товара">
         <template v-slot:body>
             <product-form id="editProductForm" :defaultValue="product" :errors="errors" :onSubmit="onUpdateClick" />
         </template>
         <template v-slot:footer>
             <div class="modalControls">
                 <p v-if="errors.global" class="error">{{ errors.global }}</p>
-                <app-button outlined @click="closeModal">Отмена</app-button>
+                <app-button outlined @click="closeEditModal">Отмена</app-button>
                 <app-button type="submit" form="editProductForm" :loading="updateIsLoading">Сохранить</app-button>
             </div>
         </template>
@@ -49,10 +64,13 @@ export default defineComponent({
     },
     setup(props) {
         const queryClient = useQueryClient();
-        const isModalVisible = ref(false);
+        const isEditModalVisible = ref(false);
+        const isMessageModalVisible = ref(false);
 
-        const closeModal = () => (isModalVisible.value = false);
-        const openModal = () => (isModalVisible.value = true);
+        const closeEditModal = () => (isEditModalVisible.value = false);
+        const openEditModal = () => (isEditModalVisible.value = true);
+
+        const closeMessageModal = () => (isMessageModalVisible.value = false);
 
         const errors = ref({
             name: '',
@@ -67,7 +85,7 @@ export default defineComponent({
         const { mutate: updateProduct, isLoading: updateIsLoading } = useMutation(updateProductApi, {
             onSuccess: () => {
                 clearErrors(errors);
-                isModalVisible.value = false;
+                isEditModalVisible.value = false;
                 queryClient.invalidateQueries('products');
                 queryClient.invalidateQueries(['product', props.product.id]);
             },
@@ -82,15 +100,20 @@ export default defineComponent({
                 queryClient.invalidateQueries('products');
                 queryClient.invalidateQueries(['product', props.product.id]);
             },
+            onError: () => {
+                isMessageModalVisible.value = true;
+            },
         });
 
         const onDeleteClick = () => deleteProduct(props.product.id);
         const onUpdateClick = (body: ProductBody) => updateProduct({ id: props.product.id, body });
 
         return {
-            isModalVisible,
-            openModal,
-            closeModal,
+            isEditModalVisible,
+            openEditModal,
+            closeEditModal,
+            isMessageModalVisible,
+            closeMessageModal,
             onUpdateClick,
             updateIsLoading,
             errors,
@@ -125,6 +148,9 @@ export default defineComponent({
     display: flex;
     align-items: center;
     gap: 10px;
+}
+.message {
+    line-height: 1.2em;
 }
 .error {
     color: var(--danger-color);

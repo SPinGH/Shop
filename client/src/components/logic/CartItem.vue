@@ -15,6 +15,9 @@
                 Delete
             </app-button>
         </div>
+        <!-- eslint-disable no-irregular-whitespace -->
+        <p v-if="changeError" class="error">Произошла ошибка при изменении количества товара</p>
+        <p v-if="deleteError" class="error">Произошла ошибка при удалении товара</p>
     </div>
 </template>
 
@@ -39,7 +42,11 @@ export default defineComponent({
         const store = useStore<State>();
         const quantity = ref(props.cart.quantity);
 
-        const { mutate: changeCart, isLoading: changeIsLoading } = useMutation(changeCartApi, {
+        const {
+            mutate: changeCart,
+            isLoading: changeIsLoading,
+            error: changeError,
+        } = useMutation(changeCartApi, {
             onSuccess: (_, body) => {
                 const cart =
                     store.state.auth.cart?.map((item) => {
@@ -49,7 +56,11 @@ export default defineComponent({
                 store.commit('SetCart', cart);
             },
         });
-        const { mutate: deleteCart, isLoading: deleteIsLoading } = useMutation(deleteCartApi, {
+        const {
+            mutate: deleteCart,
+            isLoading: deleteIsLoading,
+            error: deleteError,
+        } = useMutation(deleteCartApi, {
             onSuccess: (_, id) => {
                 const cart = store.state.auth.cart?.filter((item) => item.id !== id);
                 store.commit('SetCart', cart);
@@ -66,6 +77,8 @@ export default defineComponent({
             quantity,
             changeIsLoading,
             deleteIsLoading,
+            changeError,
+            deleteError,
             onQuantityChange,
             onDeleteClick,
         };
@@ -92,5 +105,12 @@ export default defineComponent({
 .delete {
     font-size: 14px;
     outline: none;
+}
+.error {
+    margin-top: 5px;
+    text-align: center;
+
+    font-size: 0.8em;
+    color: var(--danger-color);
 }
 </style>
