@@ -1,3 +1,4 @@
+import { Profit } from '@/models/Profit';
 import Product from '@/models/Product';
 import { $authHost } from './index';
 
@@ -6,11 +7,6 @@ interface Total {
     orders: number;
     categories: number;
     users: number;
-    profit: number;
-}
-
-interface Profit {
-    day: string;
     profit: number;
 }
 
@@ -24,7 +20,7 @@ export const getPopular = async (params: { categoryId?: number }) => {
     return data;
 };
 
-export const getProfit = async (params: { month?: string }) => {
+export const getProfit = async (params: { month?: string; year?: string }) => {
     const { data } = await $authHost.get<Profit[]>('api/statistics/profit', { params });
     return data;
 };

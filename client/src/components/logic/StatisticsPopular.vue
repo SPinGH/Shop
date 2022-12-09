@@ -19,8 +19,8 @@
                 </li>
             </transition-group>
         </ul>
-        <p v-if="products?.length === 0">Товары не найдены</p>
-        <p v-if="error" class="error">Произошла ошибка при загрузке</p>
+        <p v-if="products?.length === 0" class="message">Товары не найдены</p>
+        <p v-if="error" class="message">Произошла ошибка при загрузке</p>
     </statistics-card>
 </template>
 
@@ -113,7 +113,7 @@ export default defineComponent({
 .product {
     padding: 0 !important;
 }
-.error {
+.message {
     font-size: 0.8em;
 }
 </style>
