@@ -58,10 +58,10 @@ export class CategoriesService {
             throw new HttpException('Категория с таким id не найдена', HttpStatus.NOT_FOUND);
         }
 
-        if (categoryDto.name) {
+        if (categoryDto.name !== undefined) {
             const candidate = await this.categoryRepository.findOne({ where: { name: categoryDto.name } });
 
-            if (candidate) {
+            if (candidate && candidate.id !== id) {
                 throw new ValidationException([
                     { property: 'name', errors: ['Категория с таким названием уже существует'] },
                 ]);
@@ -70,7 +70,7 @@ export class CategoriesService {
             category.name = categoryDto.name;
         }
 
-        if (categoryDto.img) {
+        if (categoryDto.img !== undefined) {
             await this.filesService.deleteFile(category.img);
 
             const fileName = await this.filesService.createFile(categoryDto.img);

@@ -1,6 +1,7 @@
 import { InjectModel } from '@nestjs/sequelize';
 import { Injectable } from '@nestjs/common';
 
+import { ValidationException } from 'src/exceptions/validation.exception';
 import { Category } from 'src/categories/categories.model';
 import { PopularRequest } from './dto/popular-request.dto';
 import { ProductDto } from 'src/products/dto/product.dto';
@@ -62,18 +63,26 @@ export class StatisticsService {
     }
 
     async getProfit(param: ProfitRequest) {
-        const today = new Date();
-        const { month = `${today.getFullYear()}-${today.getMonth() + 1}` } = param;
+        const { month, year } = param;
+
+        if (!month && !year) {
+            throw new ValidationException([{ property: 'month', errors: ['Должен быть задан месяц'] }]);
+        }
+
+        const periodLiteral = `to_char(date, '${param.month ? 'YYYY-MM-DD' : 'YYYY-MM'}')`;
+        const whereLiteral = param.month
+            ? `date >= '${month}-01'::date and date < ('${month}-01'::date + '1 month'::interval)`
+            : `date >= '${year}-01-01'::date and date < ('${year}-01-01'::date + '1 year'::interval)`;
 
         return await this.orderRepository.findAll({
             raw: true,
             attributes: [
-                [literal("to_char(date, 'YYYY-MM-DD')"), 'day'],
+                [literal(periodLiteral), 'period'],
                 [literal('sum(price*quantity)::int'), 'profit'],
             ],
             include: { model: OrderItem, attributes: [] },
-            where: literal(`date >= '${month}-01'::date and date < ('${month}-01'::date + '1 month'::interval)`),
-            group: 'day',
+            where: literal(whereLiteral),
+            group: 'period',
         });
     }
 }
