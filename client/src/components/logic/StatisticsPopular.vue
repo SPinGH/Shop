@@ -4,8 +4,8 @@
             <p class="title">Топ популярных товаров</p>
             <app-select class="select" :options="options" outlined v-model="categoryId" />
         </div>
-        <app-loader v-if="isLoading || isFetching" class="loader" />
-        <ul>
+        <app-loader v-if="isLoading" class="loader" />
+        <ul class="list">
             <transition-group name="list">
                 <li v-for="product in products" :key="product.id" class="item">
                     <product-item
@@ -57,7 +57,7 @@ export default defineComponent({
             isLoading,
             isFetching,
             error,
-        } = useQuery(['popular', params], () => getPopular(params.value));
+        } = useQuery(['popular', params], () => getPopular(params.value), { keepPreviousData: true });
 
         return {
             categoryId,

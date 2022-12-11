@@ -6,16 +6,12 @@
         </div>
         <app-loader v-if="monthIsLoading || yearIsLoading" class="loader" />
         <svg v-if="monthValues" class="graph" width="100%" viewBox="-30 0 460 105" xmlns="http://www.w3.org/2000/svg">
-            line
-            <line
+            <line x1="5" x2="425" y1="85" y2="85" strokeWidth="2" stroke="var(--text-color)" />
+            <path
                 v-for="(value, index) in monthValues.values"
                 :key="index"
-                :x1="5 + monthValues.columnWidth * index"
-                :x2="5 + monthValues.columnWidth * index"
-                y1="5"
-                y2="85"
+                :d="`M ${5 + monthValues.columnWidth * index},5 ${5 + monthValues.columnWidth * index},85`"
                 stroke="var(--text-color)" />
-            <line x1="5" x2="425" y1="85" y2="85" strokeWidth="2" stroke="var(--text-color)" />
 
             <path :d="`M ${path}`" stroke="var(--primary-color)" fill="none" />
             <ellipse
@@ -33,10 +29,11 @@
             <template v-for="(value, index) in monthValues.values" :key="index">
                 <text
                     v-if="!(index % 2)"
-                    :x="5 + index * monthValues.columnWidth"
+                    :x="5"
                     y="100"
                     font-size="10px"
                     fill="var(--dark-text-color)"
+                    :transform="`translate(${index * monthValues.columnWidth},0)`"
                     text-anchor="middle">
                     {{ index + 1 }}
                 </text>
@@ -49,21 +46,19 @@
                 {{ monthValues.maxProfit / 2 }}
             </text>
             <text x="-2" y="87" font-size="8px" fill="var(--dark-text-color)" text-anchor="end">0</text>
+            <path d="M 427.5,0 427.5,90 430,90 430,0 Z" fill="var(--bg-color)" />
         </svg>
         <svg v-if="yearValues" class="graph" width="100%" viewBox="-30 0 460 105" xmlns="http://www.w3.org/2000/svg">
-            line
-            <line
+            <line x1="5" x2="5" y1="5" y2="85" strokeWidth="2" stroke="var(--text-color)" />
+            <line x1="5" x2="425" y1="85" y2="85" strokeWidth="2" stroke="var(--text-color)" />
+            <path
                 v-for="(value, index) in yearValues.values"
                 :key="index"
-                :x1="17 + 36 * index"
-                :x2="17 + 36 * index"
-                :y1="85"
-                :y2="85 - value.height"
+                :d="`M ${17 + 36 * index},85 ${17 + 36 * index},${85 - value.height}`"
                 stroke-width="24"
                 stroke="var(--primary-color)">
                 <title>${{ value.value }}</title>
-            </line>
-            <line x1="5" x2="425" y1="85" y2="85" strokeWidth="2" stroke="var(--text-color)" />
+            </path>
 
             <text
                 v-for="(value, index) in MonthName"
@@ -118,7 +113,10 @@ export default defineComponent({
             const columnWidth = 420 / (count - 1);
             const maxProfit = Math.max(...(data.length ? data.map(({ profit }) => profit) : [1]));
 
-            const values: { height: number; value: number }[] = Array(count).fill({ height: 0, value: 0 });
+            const values: { height: number; value: number }[] = Array(type === 'month' ? 31 : 12).fill({
+                height: 0,
+                value: 0,
+            });
             data.forEach(({ period, profit }) => {
                 const index = type === 'month' ? Number(period.substring(8)) - 1 : Number(period.substring(5)) - 1;
                 values[index] = { height: (80 * profit) / maxProfit, value: profit };
@@ -183,9 +181,14 @@ export default defineComponent({
     justify-content: space-between;
     gap: 5px;
 }
-.graph:last-child {
-    padding-top: 10px;
-    border-top: 1px solid var(--dark-bg-color);
+.graph {
+    * {
+        transition: all 0.6s ease;
+    }
+    &:last-child {
+        padding-top: 10px;
+        border-top: 1px solid var(--dark-bg-color);
+    }
 }
 .input {
     font-size: 16px !important;
