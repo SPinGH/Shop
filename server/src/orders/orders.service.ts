@@ -47,6 +47,7 @@ export class OrdersService {
                 { model: OrderItem, include: [Product] },
                 { model: User, where: userWhere },
             ],
+            distinct: true,
         });
 
         return {
