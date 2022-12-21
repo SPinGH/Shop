@@ -7,7 +7,9 @@
             <p v-if="product.name" class="name">{{ product.name }}</p>
             <p v-if="product.description" class="descr">{{ product.description }}</p>
             <div class="priceWrapper">
-                <p v-if="product.price" class="price">{{ product.discounted ?? product.price }}</p>
+                <p v-if="product.price" class="price">
+                    {{ Math.ceil((product.price / 100) * (100 - (product.discounted ?? 0))) }}
+                </p>
                 <p v-if="product.discounted" class="price old">{{ product.price }}</p>
             </div>
         </figcaption>
@@ -142,8 +144,8 @@ export default defineComponent({
     @include respValue('font-size', 22, 18);
     font-weight: 700;
     color: var(--primary-color);
-    &::before {
-        content: '$';
+    &::after {
+        content: '₽';
     }
     &.old {
         font-size: 14px !important;

@@ -91,8 +91,8 @@ export default defineComponent({
     font-weight: 700;
     color: var(--primary-color);
 
-    &::before {
-        content: '$';
+    &::after {
+        content: '₽';
     }
 }
 </style>

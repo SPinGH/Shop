@@ -65,8 +65,8 @@ export default defineComponent({
     color: var(--primary-color);
 }
 .price {
-    &::before {
-        content: '$';
+    &::after {
+        content: '₽';
     }
 }
 </style>

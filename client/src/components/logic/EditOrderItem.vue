@@ -144,8 +144,8 @@ export default defineComponent({
     font-weight: 700;
     color: var(--text-color);
 
-    &::before {
-        content: '$';
+    &::after {
+        content: '₽';
     }
 }
 .control {

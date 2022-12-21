@@ -4,7 +4,7 @@
             <div class="columnName">Цена</div>
             <div class="columnBody">
                 <div class="price">
-                    {{ product.discounted || product.price }}
+                    {{ Math.ceil((product.price / 100) * (100 - (product.discounted ?? 0))) }}
                 </div>
                 <div v-if="product.discounted" class="price old">
                     {{ product.price }}
@@ -125,8 +125,8 @@ export default defineComponent({
     font-weight: 700;
     color: var(--primary-color);
 
-    &::before {
-        content: '$';
+    &::after {
+        content: '₽';
     }
     &.old {
         font-size: 16px;

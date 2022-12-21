@@ -23,11 +23,6 @@ import AppButton from '@/components/ui/AppButton.vue';
 
 export default defineComponent({
     components: { AppButton },
-    methods: {
-        onClick() {
-            console.log('click');
-        },
-    },
 });
 </script>
 

@@ -44,7 +44,10 @@ export default defineComponent({
         const totalPrice = computed(
             () =>
                 store.state.auth.cart?.reduce(
-                    (acc, cart) => (acc += cart.quantity * (cart.product.discounted ?? cart.product.price)),
+                    (acc, cart) =>
+                        (acc +=
+                            cart.quantity *
+                            Math.ceil((cart.product.price / 100) * (100 - (cart.product.discounted ?? 0)))),
                     0
                 ) ?? 0
         );
@@ -118,8 +121,8 @@ export default defineComponent({
     font-weight: 700;
     color: var(--primary-color);
 
-    &::before {
-        content: '$';
+    &::after {
+        content: '₽';
     }
 }
 .error {
