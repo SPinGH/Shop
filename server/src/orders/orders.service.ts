@@ -26,6 +26,7 @@ export class OrdersService {
         const orders = await this.orderRepository.findAll({
             where: { userId },
             include: { model: OrderItem, include: [Product] },
+            order: [['date', 'DESC']],
         });
 
         return orders.map((order) => new OrderDto(order));
@@ -71,7 +72,9 @@ export class OrdersService {
                 quantity,
                 productId: product.id,
                 orderId: order.id,
-                price: product.discounted ?? product.price,
+                price: product.discounted
+                    ? Math.ceil((product.price / 100) * (100 - (product.discounted ?? 0)))
+                    : product.price,
             });
             cart.destroy();
         }

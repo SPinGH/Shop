@@ -86,7 +86,10 @@ export class ProductsService {
         }
 
         const fileName = await this.filesService.createFile(productDto.img);
-        const product = await this.productRepository.create({ ...productDto, img: fileName });
+        const product = await this.productRepository.create({
+            ...productDto,
+            img: fileName,
+        });
 
         return new CreatedObjectDto(product);
     }
@@ -134,8 +137,8 @@ export class ProductsService {
             throw new HttpException('Товар с таким id не найден', HttpStatus.NOT_FOUND);
         }
 
-        await this.filesService.deleteFile(product.img);
         await product.destroy();
+        await this.filesService.deleteFile(product.img);
         return null;
     }
 }

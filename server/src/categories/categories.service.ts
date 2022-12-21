@@ -89,8 +89,8 @@ export class CategoriesService {
             throw new HttpException('Категория с таким id не найдена', HttpStatus.NOT_FOUND);
         }
 
-        await this.filesService.deleteFile(category.img);
         await category.destroy();
+        await this.filesService.deleteFile(category.img);
         return null;
     }
 }

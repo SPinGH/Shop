@@ -18,7 +18,7 @@ export class ChangeProductDto {
     @ApiProperty({ example: 'Название.jpg', description: 'Картинка' })
     @IsOptional()
     @IsFile({ message: 'Должно быть файлом' })
-    @HasMimeType(['image/png', 'image/jpg'], { message: 'Должно быть картинкой' })
+    @HasMimeType(['image/png', 'image/jpg', 'image/jpeg'], { message: 'Должно быть картинкой' })
     readonly img: MemoryStoredFile;
 
     @ApiProperty({ example: 100, description: 'Цена товара' })
