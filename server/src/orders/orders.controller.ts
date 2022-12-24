@@ -7,6 +7,7 @@ import { ValidationPipe } from 'src/pipes/validation.pipe';
 import { SearchRequest } from './dto/search-request.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/auth/roles-auth.decorator';
+import { UserOrderDto } from './dto/user-order.dto';
 import { OrdersService } from './orders.service';
 import { UserDto } from 'src/users/dto/user.dto';
 import { IdParam } from 'src/dto/id-query.dto';
@@ -28,7 +29,7 @@ export class OrdersController {
     }
 
     @ApiOperation({ summary: 'Получение всех заказов' })
-    @ApiResponse({ status: HttpStatus.OK, type: [OrderDto] })
+    @ApiResponse({ status: HttpStatus.OK, type: [UserOrderDto] })
     @UsePipes(ValidationPipe)
     @Roles('ADMIN')
     @UseGuards(JwtAuthGuard)

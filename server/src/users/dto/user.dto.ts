@@ -8,6 +8,9 @@ export class UserDto {
     @ApiProperty({ example: 'user@mail.ru', description: 'Электронная почта' })
     readonly email: string;
 
+    @ApiProperty({ example: 'ул. Пушкина д.3 кв. 29', description: 'Адрес' })
+    readonly address: string;
+
     @ApiProperty({ example: 'User', description: 'Роль' })
     readonly role: 'ADMIN' | 'USER';
 
@@ -15,5 +18,6 @@ export class UserDto {
         this.id = user.id;
         this.email = user.email;
         this.role = user.role;
+        this.address = user.address;
     }
 }

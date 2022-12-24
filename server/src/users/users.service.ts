@@ -34,14 +34,16 @@ export class UsersService {
     async changeUser(initiator: UserDto, id: number, dto: ChangeUserDto) {
         const user = await this.getUser(initiator, id);
 
-        const candidate = await this.getUserByEmail(dto.email);
-        if (candidate) {
-            throw new ValidationException([
-                { property: 'email', errors: ['Пользователь с таким email уже существует'] },
-            ]);
+        if (dto.email !== undefined) {
+            const candidate = await this.getUserByEmail(dto.email);
+            if (candidate) {
+                throw new ValidationException([
+                    { property: 'email', errors: ['Пользователь с таким email уже существует'] },
+                ]);
+            }
+            user.email = dto.email;
         }
-
-        user.email = dto.email;
+        if (dto.address !== undefined) user.address = dto.address;
         await user.save();
 
         return null;
