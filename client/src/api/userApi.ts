@@ -11,8 +11,8 @@ export const getAllUsers = async () => {
     return data;
 };
 
-export const updateUser = async (id: number, body: { email: string }) => {
-    await $authHost.put(`api/users/${id}`, body);
+export const updateUser = async (payload: { id: number; body: { email?: string; address?: string } }) => {
+    await $authHost.put(`api/users/${payload.id}`, payload.body);
     return true;
 };
 

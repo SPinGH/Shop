@@ -9,9 +9,11 @@
             :aria-expanded="isExpanded"
             :aria-label="`${isExpanded ? 'Закрыть' : 'Открыть'} заказ`">
             <div class="arrow" />
-            <p class="email">{{ order.user.email }}</p>
+            <p>
+                {{ order.user.email }} <span v-if="isExpanded">({{ order.user.address }})</span>
+            </p>
             <div class="info">
-                <p v-show="!isExpanded" class="date">({{ new Date(order.date).toLocaleString() }})</p>
+                <p v-show="!isExpanded" class="date">{{ new Date(order.date).toLocaleString() }}</p>
                 <p v-show="!isExpanded" class="price">{{ totalPrice }}</p>
             </div>
             <p v-if="deleteError" class="error">Не удалось удалить заказ</p>
@@ -117,6 +119,7 @@ export default defineComponent({
     display: block;
     background: none;
     border: none;
+    flex: 0 0 20px;
     width: 20px;
     height: 20px;
 

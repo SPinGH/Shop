@@ -1,6 +1,10 @@
 <template>
     <app-container class="admin">
-        <page-header><h1>Панель Администратора</h1></page-header>
+        <page-header
+            ><h1>
+                Панель Администратора <span class="email">({{ $store.state.auth.user?.email }})</span>
+            </h1></page-header
+        >
         <app-tabs class="tabs">
             <app-tab title="Статистика"><statistics-tab class="fullHeight" /></app-tab>
             <app-tab title="Товары"><products-tab class="fullHeight" /></app-tab>
@@ -35,6 +39,9 @@ AppContainer
     flex-direction: column;
 
     background-color: var(--dark-bg-color);
+}
+.email {
+    text-transform: none;
 }
 .tabs,
 .fullHeight {

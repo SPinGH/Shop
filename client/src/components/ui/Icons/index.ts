@@ -13,6 +13,7 @@ import OrdersIcon from './OrdersIcon.vue';
 import PlusIcon from './PlusIcon.vue';
 import ProductsIcon from './ProductsIcon.vue';
 import SearchIcon from './SearchIcon.vue';
+import UserIcon from './UserIcon.vue';
 
 export {
     AdminIcon,
@@ -30,4 +31,5 @@ export {
     PlusIcon,
     ProductsIcon,
     SearchIcon,
+    UserIcon,
 };

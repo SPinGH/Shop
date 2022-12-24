@@ -30,9 +30,9 @@
                                 <cart-icon />
                             </router-link>
                         </li>
-                        <li v-if="$store.state.auth.user?.role === 'USER'" aria-label="В корзину">
-                            <router-link to="/orders" class="link">
-                                <orders-icon />
+                        <li v-if="$store.state.auth.user?.role === 'USER'" aria-label="В профиль">
+                            <router-link to="/profile" class="link">
+                                <user-icon />
                             </router-link>
                         </li>
                         <li v-if="$store.state.auth.user?.role === 'ADMIN'" aria-label="В панель администратора">
@@ -47,7 +47,7 @@
                         </li>
                     </ul>
                 </nav>
-                <button v-if="$store.state.auth.user" class="signOut" @click="logOut" aria-label="Выйти">
+                <button v-if="$store.state.auth.user" class="signOut" @click="openMessageModal" aria-label="Выйти">
                     <auth-icon />
                 </button>
                 <router-link v-else to="/login" class="signIn" aria-label="Войти">
@@ -56,19 +56,35 @@
             </div>
         </div>
     </header>
+
+    <app-modal :visible="isMessageModalVisible" @close="closeMessageModal" label="Выход">
+        <template v-slot:body> Вы уверены, что хотите выйти? </template>
+        <template v-slot:footer>
+            <div class="modalControls">
+                <app-button outlined @click="logOut">Да</app-button>
+                <app-button outlined @click="closeMessageModal">Нет</app-button>
+            </div>
+        </template>
+    </app-modal>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import { AdminIcon, AuthIcon, ProductsIcon, SearchIcon, MainIcon, CartIcon, OrdersIcon } from '@/components/ui/Icons';
+import { AdminIcon, AuthIcon, ProductsIcon, SearchIcon, MainIcon, CartIcon, UserIcon } from '@/components/ui/Icons';
+import AppButton from '@/components/ui/AppButton.vue';
+import AppModal from '@/components/ui/AppModal.vue';
 
 export default defineComponent({
-    components: { MainIcon, ProductsIcon, AdminIcon, SearchIcon, AuthIcon, CartIcon, OrdersIcon },
+    components: { MainIcon, ProductsIcon, AdminIcon, SearchIcon, AuthIcon, CartIcon, UserIcon, AppModal, AppButton },
     setup() {
         const store = useStore();
         const isMenuOpened = ref(true);
+
+        const isMessageModalVisible = ref(false);
+        const openMessageModal = () => (isMessageModalVisible.value = true);
+        const closeMessageModal = () => (isMessageModalVisible.value = false);
 
         const menuButtonLabel = computed(() => `${isMenuOpened.value ? 'Закрыть' : 'Открыть'} меню`);
 
@@ -77,9 +93,15 @@ export default defineComponent({
                 isMenuOpened.value = !isMenuOpened.value;
             }
         };
-        const logOut = () => store.dispatch('logout');
+        const logOut = () => {
+            isMessageModalVisible.value = false;
+            store.dispatch('logout');
+        };
 
         return {
+            isMessageModalVisible,
+            openMessageModal,
+            closeMessageModal,
             isMenuOpened,
             menuButtonLabel,
             toggleMenuVisible,
@@ -184,5 +206,13 @@ export default defineComponent({
 }
 .signOut {
     transform: rotate(90deg);
+}
+.modalControls {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 10px;
 }
 </style>
