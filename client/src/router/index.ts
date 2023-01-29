@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
-import CategoriesPage from '@/pages/CategoriesPage.vue';
-import ProductsPage from '@/pages/ProductsPage.vue';
-import ProductPage from '@/pages/ProductPage.vue';
-import ProfilePage from '@/pages/ProfilePage.vue';
-import SearchPage from '@/pages/SearchPage.vue';
-import AdminPage from '@/pages/AdminPage.vue';
-import MainPage from '@/pages/MainPage.vue';
-import AuthPage from '@/pages/AuthPage.vue';
-import CartPage from '@/pages/CartPage.vue';
+const CategoriesPage = () => import('@/pages/CategoriesPage.vue');
+const ProductsPage = () => import('@/pages/ProductsPage.vue');
+const ProductPage = () => import('@/pages/ProductPage.vue');
+const ProfilePage = () => import('@/pages/ProfilePage.vue');
+const SearchPage = () => import('@/pages/SearchPage.vue');
+const AdminPage = () => import('@/pages/AdminPage.vue');
+const MainPage = () => import('@/pages/MainPage.vue');
+const AuthPage = () => import('@/pages/AuthPage.vue');
+const CartPage = () => import('@/pages/CartPage.vue');
 import store from '@/store';
 
 const routes: RouteRecordRaw[] = [

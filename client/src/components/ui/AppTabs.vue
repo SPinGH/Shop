@@ -66,7 +66,7 @@ export default defineComponent({
     row-gap: 10px;
 }
 .tab {
-    padding: 0.7em 2em;
+    padding: 0.7em 1.1em;
     cursor: pointer;
     border: none;
 

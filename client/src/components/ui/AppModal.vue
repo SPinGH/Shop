@@ -79,6 +79,7 @@ export default defineComponent({
 
 .content {
     z-index: 501;
+    margin: 10px;
     background: var(--bg-color);
     border-radius: 15px;
     display: flex;

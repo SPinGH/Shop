@@ -1,6 +1,6 @@
 <template>
     <aside ref="aside" :class="{ opened: isAsideOpened }">
-        <button class="burger" @click="toggleIsAsideOpened">
+        <button class="burger" @click="toggleIsAsideOpened" aria-label="Открыть категории">
             <span></span>
         </button>
         <div class="wrapper" :inert="!isAsideOpened">

@@ -27,7 +27,7 @@
                 :error="errors?.price" />
             <app-input
                 class="input"
-                label="Скидка"
+                label="Скидка (%)"
                 type="number"
                 outlined
                 v-model="product.discounted"

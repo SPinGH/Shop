@@ -20,10 +20,9 @@
                     </li>
                 </transition-group>
             </ul>
+            <p v-if="orders?.length === 0" class="message">У вас нет заказов</p>
+            <p v-if="error" class="message">Произошла ошибка при загрузке</p>
         </div>
-
-        <p v-if="orders?.length === 0">У вас нет заказов</p>
-        <p v-if="error">Произошла ошибка при загрузке</p>
     </app-container>
 </template>
 
@@ -117,10 +116,12 @@ export default defineComponent({
 }
 .title {
     @include respValue('padding', 15, 8);
-
     font-size: 16px;
 }
-
+.message{
+    @include respValue('padding', 15, 8);
+    font-size: 14px;
+}
 .list {
     flex: 1 1 auto;
     position: relative;
