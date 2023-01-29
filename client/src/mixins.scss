@@ -1,0 +1,14 @@
+@mixin respValue($property, $startSize, $minSize) {
+    $addSize: $startSize - $minSize;
+    #{$property}: $startSize + px;
+    @media (max-width: #{$maxWidthContainer + px}) {
+        #{$property}: calc(
+            #{$minSize + px} + #{$addSize} * ((100vw - #{$minWidth}px) / #{$maxWidthContainer - $minWidth})
+        );
+    }
+    @media (max-width: #{$minWidth + px}) {
+        #{$property}: $minSize + px;
+    }
+}
+$maxWidthContainer: 1400;
+$minWidth: 375;
